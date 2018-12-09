@@ -1,0 +1,343 @@
+* { 
+	margin: 0; 
+	padding-top: 0;
+}
+html, body { 
+	font: 13px Verdana, Tahoma; 
+	color: #454545; 
+	line-height: 1.6em; 
+		overflow: auto; 
+
+}
+
+a {
+	text-decoration: none;
+	color: #006;
+	background: inherit;
+}
+a:hover { 
+	color: #808080; 
+	background: inherit; 
+}	
+a:focus { 
+	outline: 0; 
+}
+img { 
+	border: 0; 
+}
+.gray {
+	color:#666666;
+}	
+.red {
+	color: #c40000;
+}
+#maincontent { 
+	width: 580px; 
+	height: 385px;
+	margin: 30px auto 0; 
+	padding: 0; 
+	clear: both; 
+	background: url(../images/bg.png) repeat-x; 
+}
+
+#loginform { 
+	background: url(../images/mouse.jpg) no-repeat left bottom;
+	padding: 70px 50px 10px 4px; 
+	line-height: 35px;
+	margin: 0 0 20px;
+	width: 80%;
+	float: right;
+	text-align: right;
+} 
+#loginform p { 
+	padding-left: 100px; 
+	margin: 0; 
+}
+h2 {
+	font-family: Verdana;
+	font-size: 25px;
+	color: #C40000;
+	padding-bottom: 20px;
+}
+h3 {
+	font-family: Verdana;
+	font-size: 20px;
+	color: #C40000;
+	border-bottom: 1px dashed #ccc;
+	line-height: 35px;
+}
+#slogan {
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+.inputbox {
+	border: 1px solid #cccccc;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	width: 165px;
+	font-family: tahoma;
+	padding: 5px 5px 5px 5px;
+}
+.inputbox1 {
+	margin-bottom: 1px;
+	padding-left: 8px;
+	padding-top : 3px;
+	padding-bottom: 5px;
+	border: 1px solid #cccccc;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	width: 165px;
+	font-family: "tahoma";
+	
+	
+}
+.small {
+	font-size: 11px;
+}
+.code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 11px;
+}
+.inputbox-normal {
+	margin-bottom: 1px;
+	padding-left: 8px;
+	padding-top : 3px;
+	padding-bottom: 5px;
+	border: 1px solid #cccccc;
+	font-size: 13px;
+	color: #000000;
+	width: 165px;
+	font-family: Verdana;
+}
+.inputbox-fail {
+	margin-bottom: 1px;
+	padding: 3px 2px 5px 8px;
+	border: 1px solid #f00;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	width: 165px;
+}
+
+.button {
+	background:url(../images/buttom.png);
+	BORDER-TOP-STYLE: none; 
+	BORDER-RIGHT-STYLE: none; 
+	BORDER-LEFT-STYLE: none; 
+	BACKGROUND-COLOR: #ffffff; 
+	TEXT-DECORATION: none; 
+	BORDER-BOTTOM-STYLE: none; 
+	color:#ffffff;
+	font-weight:bold; 
+	width: 87px; 
+	height: 24px; 
+	padding-left:0px;
+	font-family: Tahoma;
+	
+}
+#header-bar {
+	background: url(../images/header-bg.png) 0 0 repeat-x;
+	color: #fff;
+	padding: 5px 25px 5px 5px;
+}
+#header-bar {
+	height: 45px;
+}
+#header-logoff {
+	float: right;
+	text-decoration: none;
+}
+#header-logoff a {
+    color: #FFD9DA;
+}
+#header-logoff a:hover {
+    color: #ff0000;
+	text-decoration: underline;
+
+}
+#body {
+	width: 96%;
+	margin: auto;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.box {
+	background: #EFEFEF;
+	border: 1px solid #CCCCCC;
+	 clear: both;
+}
+#footer {
+	margin-top: 20px;
+	padding-top: 8px;
+	border-top: 1px dashed #ccc;
+	padding-bottom: 10px;
+	width: 100%;
+	float: left;
+}
+
+#cpanel {  text-align: center;  vertical-align: middle; }
+
+#cpanel div.icon   { margin: 3px; }
+#cpanel div.icon a {
+        display: block; float: left;
+        height: 97px !important;
+        height: 100px;
+        width: 108px !important;
+        width: 110px;
+        vertical-align: middle;
+        text-decoration : none;
+        border: 1px solid #DDD;
+        padding: 2px 5px 1px 5px;
+}
+
+#cpanel div.icon a:link    {  color : #808080;  }
+#cpanel div.icon a:hover   {
+        color : #333;
+        background-color: #f1e8e6;
+        border: 1px solid #c24733;
+        padding: 3px 4px 0px 6px;
+}
+#cpanel div.icon a:active  {  color : #808080;  }
+#cpanel div.icon a:visited {  color : #808080;  }
+
+#cpanel div.icon img { margin-top: 13px; }
+#cpanel div.icon span { display: block; padding-top: 3px;}
+
+#left { 
+	float: left;
+	margin-right: 4%;
+	width: 69%;
+}
+/* navigation */
+#right {
+	float: left;
+	width: 24%;
+}
+#right h1 {
+	border-bottom: 1px dashed #DDD;
+	color: #006;
+	font-size: 13px;
+	height: 20px;
+	padding-bottom: 5px;
+	padding-top: 10px;
+}
+#right ul {
+	margin: 0;
+	padding: 0;
+}
+#right li { 
+	border-bottom: 1px dashed #EEE;
+	list-style: none;
+	margin: 0;
+}
+#right li a {
+	color: #777;
+	display: block;
+	font-size: 13px;
+	padding: 3px 6px 3px 18px;
+	text-decoration: none;
+}
+#right li a:hover {
+	color: #111;
+	background: url(../images/li-red.gif) no-repeat center left;
+}
+.space {
+	height: 10px;
+}
+#content {
+	margin-bottom: 10px;
+	border: 1px #ddd solid;
+	padding: 5px ;
+	text-align: left;
+	min-height: 300px;
+	line-height: 20px;
+	padding-bottom: 20px;
+}
+.header {
+	font-family: Verdana;
+	font-size: 20px; font-weight: bold; color: #0B55C4;
+	background-repeat: no-repeat;
+	line-height: 25px;
+	padding-top: 20px;
+	margin-top: 10px;
+	border-bottom: 1px #ddd dashed;
+}
+.normal {
+	color: #333333;
+	font-size: 13px;
+	font-weight: normal;
+}
+fieldset p {  margin: 20px 20px 20px 20px;  }
+
+legend    {
+	color: #c40000;
+	font-size: 13px;
+}
+table.admintable td 					 { padding: 3px; }
+table.admintable td.key,
+table.admintable td.paramlist_key {
+	background-color: #f6f6f6;
+	color: #666;
+	font-weight: bold;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+span.alert,
+span.info,
+span.download,
+span.note {
+	margin-top: 10px;
+	text-align: center;
+	height: 10px;
+	display: block;
+}
+
+span.alert {
+	color: #c40000;
+}
+
+span.info {
+	color: green;
+}
+
+span.note {
+	color: #B79000;
+}
+
+span.download {
+	color: #57861A;
+}
+.noborder {
+	FONT-SIZE: 13px; COLOR: #666666; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; 
+}
+.noborder:hover {
+	FONT-SIZE: 13px; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line_red.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; 
+}
+.noborder4 {
+	FONT-SIZE: 13px; COLOR: #666666; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line_red.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; 
+}
+.noborder4:hover {
+	FONT-SIZE: 13px; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; 
+}
+.noborder3 {
+	FONT-SIZE: 13px; COLOR: #666666; BORDER-TOP-STYLE: none; FONT-FAMILY: verdana; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px;  
+}
+.noborder3:hover {
+	FONT-SIZE: 13px; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-FAMILY: verdana; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line_red.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px;  
+}
+.noborder2 {
+	FONT-SIZE: 13px; COLOR: #666666; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; font-weight:bold; 
+}
+.noborder2:hover {
+	FONT-SIZE: 13px; COLOR: #000000; BORDER-TOP-STYLE: none; FONT-FAMILY: Tahoma; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #ffffff; TEXT-DECORATION: none; BORDER-BOTTOM-STYLE: none; background:url(../images/bg_line_red.gif)  bottom; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; font-weight:bold; 
+}
+.normal a {
+	color: #333333;
+	font-weight: normal;
+}
+.normal a:hover {
+	color: #c40000;
+	font-weight: normal;
+}

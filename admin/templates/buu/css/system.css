@@ -1,0 +1,93 @@
+html, body {
+	margin: 0px 0px 0px 0px;
+	font-size: 13px;
+	font-family: Tahoma;
+	overflow: hidden;
+}
+.header {
+        color: #ff9900;
+        font-weight: bold;
+}
+.pipe {
+        color: #000000;
+        font-weight: bold;
+}
+a, a:visited {
+        color: #000;
+        text-decoration: none;
+        line-height: 24px;
+}
+a:hover {
+        color: #000;
+        border-bottom: 1px dashed #ff9900;
+        line-height: 24px;
+}
+#topwelcome {
+	text-align:right;
+	padding-right: 20px;
+}
+#welcome {
+}
+#footer {
+	text-align:left;
+	width: 751px;
+	padding-left: 20px;
+}
+
+
+.clear{
+	clear:both; 
+	height:0; 
+	line-height:0;
+}
+#wrapper {
+	width: 100%;
+	text-align: center;
+}
+#content {
+	background: url(../images/buu.png) center top no-repeat;
+	width: 100% !important;
+	width: 751px;
+	height: 280px;
+}
+#content { behavior: url(../script/iepngfix.htc); }
+#content #login {
+	text-align: right;
+	float: right;
+
+} 
+#content #login input{
+	font-family: Verdana;
+	padding-left: 5px;
+	width: 150px;
+	font-weight: bold;
+	font-size: 11px;
+	height: 24px;
+	padding-top: 3px;
+	margin-top: 7px;
+} 
+#content #login #imgsubmit {
+	position:relative;
+	margin-left: 5px;
+	height: 10px;
+	width: 10px;
+}
+#content #login #UserName {
+	margin-right:24px;
+}
+#content #login #message {
+	color: #FFFFFF;
+	height: 0px;
+}
+#TitleBox {
+	text-align:right;
+	margin-right:150px;
+        color: #FFFFFF;
+        font-weight: bold;
+}
+#TimeBox {
+        margin-right:21px;
+        width: 150px;
+
+}
+
