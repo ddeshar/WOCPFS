@@ -1,15 +1,15 @@
 <?php
-include("include/class.testlogin.php");
-?>
-<?php
+    include("include/class.testlogin.php");
+
+    ini_set('memory_limit','16M');
 /*=====================================================================================*/
 /* SCRIPT CONFIGURATION */
 /*=====================================================================================*/
 
 $mysql['host'] ='localhost';                    // ussually localhost
-$mysql['user'] ='mysql_USER';                         // mysql username
-$mysql['pass'] ='mysql_PASSWORD';                 // mysql password
-$mysql['name'] ='mysql_DB';			    // mysql database name
+$mysql['user'] ='root';                   // mysql username
+$mysql['pass'] ='mysql';               // mysql password
+$mysql['name'] ='radius3';			            // mysql database name
 
 //if(ISO=='utf-8'){
 //$mysql['charset'] = "utf8";                     // connection charset
@@ -58,8 +58,7 @@ register_shutdown_function(create_function('$link','if (is_resource($link)) mysq
 // list all tables
 $tables = array();
 $result = mysqli_query($mysql_link, "SHOW TABLES FROM `{$mysql['name']}`");
-while (($row = mysqli_fetch_array($result, MYSQLI_NUM)) !== FALSE)
-{
+while (($row = mysqli_fetch_array($result, MYSQLI_NUM)) !== FALSE){
  $tables[] = $row[0];
 }
 ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);

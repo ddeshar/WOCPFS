@@ -330,7 +330,7 @@ if(!class_exists('ThaiPDF')){
 			if($this->HAdd == 1){
     			//Select Arial bold 15
     			$Show = $this->HTitle;
-				if($this->HShowPNo == 1)$Show = $Show . ' Ë¹éÒ ' . $this->PageNo();
+				if($this->HShowPNo == 1)$Show = $Show . ' Ë¹ï¿½ï¿½ ' . $this->PageNo();
 				$this->SetFont('CordiaNew','B',12);
     			//Framed title
     			$this->Cell(0,12,$Show,0,0,$this->HAlign);
@@ -342,7 +342,7 @@ if(!class_exists('ThaiPDF')){
 		function Footer()	{
 			if($this->VAdd == 1){
 			 	$Show = $this->VTitle;
-			 	if($this->VShowPNo == 1)$Show = $Show . ' Ë¹éÒ ' . $this->PageNo();
+			 	if($this->VShowPNo == 1)$Show = $Show . ' Ë¹ï¿½ï¿½ ' . $this->PageNo();
 				//Go to 1.5 cm from bottom
     			$this->SetY(-15);
     			//Select Arial italic 8

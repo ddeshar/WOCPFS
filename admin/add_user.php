@@ -1,317 +1,272 @@
 <?php
-include("include/class.testlogin.php");
-?>
-<?
-function generatePassword ($length = 6)
-{
+  include("include/class.testlogin.php");
 
-  // start with a blank password
-  $password = "";
+  function generatePassword ($length = 6){
 
-  // define possible characters
-  //$possible = "0123456789abcdefghijklmnopqrstuvwxyz"; 
-  $possible = "0123456789";     
-  // set up a counter
-  $i = 0; 
-    
-  // add random characters to $password until $length is reached
-  while ($i < $length) { 
+    // start with a blank password
+    $password = "";
 
-    // pick a random character from the possible ones
-    $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
-        
-    // we don't want this character if it's already in the password
-    if (!strstr($password, $char)) { 
-      $password .= $char;
-      $i++;
+    // define possible characters
+    $possible = "0123456789abcdefghijklmnopqrstuvwxyz"; 
+    // set up a counter
+    $i = 0; 
+      
+    // add random characters to $password until $length is reached
+    while ($i < $length) { 
+
+      // pick a random character from the possible ones
+      $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+          
+      // we don't want this character if it's already in the password
+      if (!strstr($password, $char)) { 
+        $password .= $char;
+        $i++;
+      }
+
     }
+
+    // done!
+    return $password;
 
   }
 
-  // done!
-  return $password;
-
-}
-
-		foreach($_REQUEST as $key => $value) {
-			$$key = $value;
-			//echo $key . " => " . $value . "<BR>";
-		}
-		$error1 = $error2 = $error3 = 0;
-		$pass = false;
-		if($action == "generate") {
-			if(!isset($group)) $error1 = 1;
-			if(empty($username)) $error2 = 1;
-			if(empty($numadd)) $error3 = 1;
-			if($error1 == 0 && $error2 == 0 && $error3 == 0 ) {
-				$pass = true;
-				$sql = "select * from genuser where userprefix = '$username'";
-				// echo $sql;
-				$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-				if(mysqli_num_rows($result) == 0) {
-					$start = 1;
-				} else {
-					$data = mysqli_fetch_object($result);
-					$start =  $data->userlastno + 1;
-				}
-				// echo $start;
-			}
-		} else if($action == "save") {
-			$pass = true;
-			//print_r($username);
-			//print_r($password);
-			for($i = 1; $i <= $numadd; $i++) {
-				$sql = "insert into account values('".$username[$i]."','".$password[$i]."','".$username[$i]."','".$group."','--','".date("Y-m-d H:i:s")."','clear','1')";
-				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-				//echo $sql . "<BR>"; 
-				$sql = "insert into radusergroup values('".$username[$i]."','".$group."','1')";
-				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-				//echo $sql . "<BR>"; 
-				$sql = "INSERT INTO radcheck values(NULL,'".$username[$i]."','Cleartext-Password',':=','".$password[$i]."')";
-				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-				//echo $sql . "<BR>"; 
-			}
-			$sql = "select * from genuser where userprefix = '$prefix'";
-			// echo $sql;
-			$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-			if(mysqli_num_rows($result) == 0) {
-				$sql = "insert into genuser values ('$prefix', '$last')";
-				//echo $sql;
-				
-			} else {
-				$sql = "update genuser set userlastno = '$last' where userprefix = '$prefix'";
-				//echo $sql;
-			}
-			mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-			
-		}
-?>				
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-    <script language="javascript" src="js/show.js"></script>
-	<title>-:- Authent!cation -:-</title>
-</head>
-<body>
-<div id="content">
-<form id="form1" method="post" action="<?php if($pass && $action != "generate") { echo "ThaiPDF/exportPDF.php"; } ?>" <?php if($pass && $action != "generate") {  ?> target="_blank"<?php } ?>>
-<table width="95%" align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
-  <tr>
-    <td width="6%" align="center"><img src="images/BlackNeonAgua_003.png" alt="" width="48" height="48" /></td>
-    <td width="38%"><a href="index2.php?option=add_user">Generate Multi Users</a><br />
-<span class="normal">เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</span></td>
-    <td width="56%" align="right">
-	<?php if(!$pass) { ?>
-     <input name="submit" type="submit" class="button" id="submit" value="ประมวลผล" />
-	 <?php } else { ?>
-     <?php if($action == "generate") { ?>
-     <input name="submit" type="submit" class="button" id="submit" value="บันทึก" />
-      <input type="button" name="button2" id="button2" class="button" value="ยกเลิก" onclick="window.location='index2.php?option=add_user'" />
-      <?php } else { ?>
-     <input name="submit" type="submit" class="button" id="submit" value="พิมพ์" />
-      <?php } ?>
-      <?php } ?>
-      </td>
-  </tr>
-</table>
-
-<?php if(!$pass) { ?>
-<table width="95%" border="0" align="center" cellpadding="0" cellspacing="5">
-  <tr>
-    <td colspan="3"><?php 
-	if(isset($message)) { echo $message; } 
-?>&nbsp;</td>
-    </tr>
-  <tr>
-    <td height="32" align="right">กลุ่มผู้ใช้ :</td>
-    <td>      <?php $sql = "select * from groups";
-		$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-		$num = mysqli_num_rows($result);
-	?>
-    
-		<span class="normal">
-        <?php if(!isset($_REQUEST['group'])) { ?>
-        กรุณาเลือกกลุ่ม
-        <?php } else { ?>
-        <?php 
-			$sql = "select * from groups where gname = '".$_REQUEST['group']."'";
-			$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-			$data2 = mysqli_fetch_object($result2);
-			echo  "กลุ่ม  " . $data2->gdesc ;
-		?>
-        <?php } ?>
-        </span><img src="images/b_ar.gif" align="absmiddle" style="cursor:hand"  onClick="showhide(1);event.cancelBubble=1" />
-		<div onmouseover="showhide(2);" onmouseout="showhide(0)" id="innermenu" style="position:absolute; width:300px; height:<?= $num * 25 ?>px;background-color:white; visibility:hidden; text-align:left; border: 1px #ddd dashed; padding: 10px 10px 10px 10px; font-weight: normal; line-height: 25px" class="normal">
-        <script language="JavaScript1.2">
-		
-		
-		function gl(linkname,dest){
-		document.write('<li><a href="'+dest+'">'+linkname+'</a></li>')
-		}
-		
-		function showhide(state){
-		var cacheobj=document.getElementById("innermenu").style
-		if (state==0)
-		cacheobj.visibility="hidden"
-		else if(state==2) 
-		cacheobj.visibility="visible"
-		else
-		cacheobj.visibility=cacheobj.visibility=="hidden"? "visible" : "hidden"
-		}
-		
-		//Specify your links here- gl(Item text, Item URL)
-		<?php while($groups = mysqli_fetch_object($result)) { ?>
-		gl("กลุ่ม  <?= $groups->gdesc ?>","index2.php?option=add_user&group=<?= $groups->gname ?>&username=<?= $username ?>&numadd=<?= $numadd ?>")
-		<?php } ?>
-
-		//Extend this list as needed
-		
-		
-		document.onclick=function(){showhide(0)}
-		
-</script>
-</div></td>
-    <td><span class="red"><?php if($error1) { echo "&laquo; เลือกกลุ่มด้วยครับ"; } ?> </span>&nbsp;</td>
-  </tr>
-  
-  <tr>
-    <td width="32%" align="right">คำขึ้นต้นชื่อผู้ใช้ :</td>
-    <td width="33%"><input name="username" type="text" class="noborder2" id="username" value="<?= $username ?>" />
-      <input name="action" type="hidden" id="action" value="generate" /> </td>
-    <td width="35%"><span class="red"><?php if($error2) { echo "&laquo; ระบุคำขึ้นต้นชื่อผู้ใช้ด้วยครับ"; } ?> </span>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">จำนวนที่ต้องการสร้าง :</td>
-    <td><input name="numadd" type="text" class="noborder2" id="numadd" value="<?= $numadd ?>" /> </td>
-    <td><span class="red"><?php if($error3) { echo "&laquo; ระบุจำนวนที่ต้องการสร้างด้วยครับ"; } ?> </span>&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="3">&nbsp;</td>
-    </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-<?php } else { ?>
-<?	$sql = "select * from groups where gname = '$group'";
+  foreach($_REQUEST as $key => $value) {
+    $$key = $value;
+    //echo $key . " => " . $value . "<BR>";
+  }
+  $error1 = $error2 = $error3 = 0;
+  $pass = false;
+  if($action == "generate") {
+    if(!isset($group)) $error1 = 1;
+    if(empty($username)) $error2 = 1;
+    if(empty($numadd)) $error3 = 1;
+    if($error1 == 0 && $error2 == 0 && $error3 == 0 ) {
+      $pass = true;
+      $sql = "select * from genuser where userprefix = '$username'";
+      // echo $sql;
+      $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+      if(mysqli_num_rows($result) == 0) {
+        $start = 1;
+      } else {
+        $data = mysqli_fetch_object($result);
+        $start =  $data->userlastno + 1;
+      }
+      // echo $start;
+    }
+  } else if($action == "save") {
+    $pass = true;
+    //print_r($username);
+    //print_r($password);
+    for($i = 1; $i <= $numadd; $i++) {
+      $sql = "INSERT INTO account VALUES('".$username[$i]."','".$password[$i]."','".$username[$i]."','".$group."','--','".date("Y-m-d H:i:s")."','clear','1')";
+      mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+      //echo $sql . "<BR>"; 
+      $sql = "INSERT INTO radusergroup VALUES('".$username[$i]."','".$group."','1')";
+      mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+      //echo $sql . "<BR>"; 
+      $sql = "INSERT INTO radcheck VALUES(NULL,'".$username[$i]."','Cleartext-Password',':=','".$password[$i]."')";
+      mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+      //echo $sql . "<BR>"; 
+    }
+    $sql = "SELECT * FROM genuser WHERE userprefix = '$prefix'";
+    // echo $sql;
     $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-	$data = mysqli_fetch_object($result);
+    if(mysqli_num_rows($result) == 0) {
+      $sql = "INSERT INTO genuser VALUES ('$prefix', '$last')";
+      //echo $sql;
+      
+    } else {
+      $sql = "UPDATE genuser SET userlastno = '$last' WHERE userprefix = '$prefix'";
+      //echo $sql;
+    }
+    mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+    
+  }
 ?>
-<?php if($action == "generate") { ?>
-<table width="95%" align="center" cellspacing="1" class="admintable">
 
- 
-    <tr>
-      <td height="35" colspan="5" align="left"> ตารางแสดงรายชื่อสมาชิกที่จะเพิ่มใหม่ในกลุ่ม <b><?= $data->gdesc ?></b> ทั้งสิ้น <b class="red">
-      
-    <?= $numadd ?></b>  คน</td>
+  <div class="app-title">
+      <div>
+          <h1><i class="fa fa-users"></i> เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</h1>
+          <p>Generate Multi Users</p>
+      </div>
+      <ul class="app-breadcrumb breadcrumb">
+          <li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
+          <li class="breadcrumb-item"><a href="index2.php?option=add_user">เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</a></li>
+      </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <form id="form1" method="post" action="<?php if($pass && $action != "generate") { echo "ThaiPDF/exportPDF.php"; } ?>" <?php if($pass && $action != "generate") {  ?> target="_blank"<?php } ?>>
+
+          <div class="tile-title-w-btn">
+            <!-- <h3 class="tile-title">เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</h3> -->
+            <div class="btn-group">
+              <?php if(!$pass) { ?>
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>ประมวลผล</button>
+              <?php } else { ?>
+              <?php if($action == "generate") { ?>
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>บันทึก</button>
+              <input type="button" name="button2" id="button2" class="btn btn-danger" value="ยกเลิก" onclick="window.location='index2.php?option=add_user'" />
+              <?php } else { ?>
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>พิมพ์</button>
+              <?php }
+              } ?>
+            </div>
+          </div>
+
+          <div class="tile-body row">
+
+                <?php 
+                  if(!$pass) {
+                    if(isset($message)) { echo $message; }  
+
+                    $sql = "SELECT * FROM groups";
+                    $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+                    $num = mysqli_num_rows($result);
+
+                    if(!isset($_REQUEST['group'])) {
+                      $groups = "กรุณาเลือกกลุ่ม";
+                    } else {
+                      $sql = "SELECT * FROM groups WHERE gname = '".$_REQUEST['group']."'";
+                      $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+                      $data2 = mysqli_fetch_object($result2);
+                      $groups =   "กลุ่ม  " . $data2->gdesc ;
+                    } 
+                ?>
+              <div class="form-group col-md-3" onClick="showhide(1);event.cancelBubble=1">
+                <div class="widget-small <?php if($error1) { echo "danger"; }else{ echo "primary"; } ?> "><i class="icon fa fa-users fa-3x"></i>
+                  <div class="info">
+                    <h4>กลุ่มผู้ใช้ :</h4>
+                    <p><b><?=$groups ?></b></p>
+                  </div>
+                </div>
+                <div onmouseover="showhide(2);" onmouseout="showhide(0)" id="innermenu" style="position:absolute; background-color:white; visibility:hidden; x-index: -1;">
+                  <script language="JavaScript1.2">
+                    function gl(linkname,dest){
+                      document.write('<a class="dropdown-item" href="'+dest+'">'+linkname+'</a>')
+                    }
+                
+                    function showhide(state){
+                      var cacheobj=document.getElementById("innermenu").style
+                      if (state==0)
+                      cacheobj.visibility="hidden"
+                      else if(state==2) 
+                      cacheobj.visibility="visible"
+                      else
+                      cacheobj.visibility=cacheobj.visibility=="hidden"? "visible" : "hidden"
+                    }
+                
+                    // Specify your links here- gl(Item text, Item URL)
+                    <?php while($groups = mysqli_fetch_object($result)) { ?>
+                    gl("กลุ่ม  <?= $groups->gdesc ?>","index2.php?option=add_user&group=<?= $groups->gname ?>&username=<?= $username ?>&numadd=<?= $numadd ?>")
+                    <?php } ?>
+
+                    //Extend this list as needed
+                    document.onclick=function(){showhide(0)}		
+                  </script>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">คำขึ้นต้นชื่อผู้ใช้</label>
+                <input name="username" type="text" class="form-control <?php if($error2) { echo "is-invalid"; } ?>" id="username" value="<?= $username ?>" />
+                <input name="action" type="hidden" id="action" value="generate" /> </td>
+                <div class="form-control-feedback"><?php if($error2) { echo "ระบุคำขึ้นต้นชื่อผู้ใช้ด้วยครับ"; } ?></div>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">จำนวนที่ต้องการสร้าง</label>
+                <input name="numadd" type="text" class="form-control <?php if($error3) { echo "is-invalid"; } ?>" id="numadd" value="<?= $numadd ?>" /> </td>
+                <div class="form-control-feedback"><?php if($error3) { echo "ระบุจำนวนที่ต้องการสร้างด้วยครับ"; } ?></div>
+              </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<?php 
+  } else {
+  $sql = "SELECT * FROM groups WHERE gname = '$group'";
+  $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+  $data = mysqli_fetch_object($result);
+
+  if($action == "generate") { 
+?>
+    <div class="bs-component">
+      <div class="alert alert-success">ตารางแสดงรายชื่อสมาชิกที่จะเพิ่มใหม่ในกลุ่ม <b class="text-danger" ><?= $data->gdesc ?></b> ทั้งสิ้น <b class="text-danger"><?= $numadd ?></b> คน</div>
+    </div>
+
+    <table class="table table-striped">
+      <tr align="center">
+        <th>ลำดับที่</th>
+        <th>ชื่อผู้ใช้งาน</th>
+        <th>รหัสผ่าน</th>
+        <th>วันหมดอายุ</th>
+        <th>ความเร็วเน็ต<br />(ดาวน์โหลด / อัพโหลด)</th>
       </tr>
-    
-    <tr>
-      <td width="94" align="center" class="key">ลำดับที่</td>
-      <td width="172" align="center" class="key">ชื่อผู้ใช้งาน</td>
-      <td width="188" align="center" class="key">รหัสผ่าน</td>
-      <td width="162" align="center" class="key">วันหมดอายุ</td>
-      <td width="276" align="center" class="key">ความเร็วเน็ต<br /> 
-        (ดาวน์โหลด / อัพโหลด)</td>
-      </tr>
-    <?php 
-		$count = 0;
-		for($i=0; $count < $numadd; $i++) { 
-			($i % 2 == 0) ? $bgcolor = "#FFFFFF" : $bgcolor = "#F6F6F6";
-				$newuser = sprintf("%s%d", $username, $start + $i);
-			$newpass =  generatePassword(6);
-			$sql = "select * from account where username = '".$newuser."'";
-			if(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))) {
-				continue;
-			} else {
-				$count++;
-			}
-		?>
-    <tr>
-      <td width="94" align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $count ?></td>
-      <td width="172" align="center" valign="top" bgcolor="<?= $bgcolor ?>">
-          <input id="username[<?= $count ?>]" name="username[<?= $count ?>]" type="hidden" value="<?= $newuser ?>"  /><?= $newuser ?>            </td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>">
-      
-        <input id="password[<?= $count ?>]" name="password[<?= $count ?>]" type="hidden" value="<?= $newpass ?>" /><?= $newpass ?>             </td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $data->gexpire ?></td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $data->gdownload?>/<?= $data->gupload ?> KB    </td>
-      </tr>
-    <?php } 		
- ?>
-  </table>
-  <input name="last" type="hidden" value="<?= $start + $count ?>" />
-  <input name="prefix" type="hidden" value="<?= $username ?>" />
-  <input name="action" type="hidden" value="save" />
-  <input name="numadd" type="hidden" value="<?= $numadd ?>" />
+        <?php 
+          $count = 0;
+          for($i=0; $count < $numadd; $i++) { 
+            ($i % 2 == 0) ? $bgcolor = "#FFFFFF" : $bgcolor = "#F6F6F6";
+              $newuser = sprintf("%s%d", $username, $start + $i);
+            $newpass =  generatePassword(6);
+            $sql = "SELECT * FROM account WHERE username = '".$newuser."'";
+            if(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))) {
+              continue;
+            } else {
+              $count++;
+            }
+        ?>
+          <tr align="center" >
+            <td><?= $count ?></td>
+            <td><input id="username[<?= $count ?>]" name="username[<?= $count ?>]" type="hidden" value="<?= $newuser ?>"  /><?= $newuser ?></td>
+            <td><input id="password[<?= $count ?>]" name="password[<?= $count ?>]" type="hidden" value="<?= $newpass ?>" /><?= $newpass ?>             </td>
+            <td><?= $data->gexpire ?></td>
+            <td><?= $data->gdownload?>/<?= $data->gupload ?> KB</td>
+          </tr>
+        <?php } ?>
+    </table>
+
+    <input name="last" type="hidden" value="<?= $start + $count ?>" />
+    <input name="prefix" type="hidden" value="<?= $username ?>" />
+    <input name="action" type="hidden" value="save" />
+    <input name="numadd" type="hidden" value="<?= $numadd ?>" />
 <?php } else { ?>
-<table width="95%" align="center" cellspacing="1" class="admintable">
 
-    <tr>
-      <td height="43" colspan="5" align="center"><font color="#009900">บันทึกข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว</font></td>
+<div class="col-lg-12">
+  <div class="bs-component" align="center">
+    <div class="alert alert-success">บันทึกข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว <br> ตารางแสดงรายชื่อสมาชิกที่จะเพิ่มใหม่ในกลุ่ม <b class="text-danger" ><?= $data->gdesc ?></b> ทั้งสิ้น <b class="text-danger"><?= $numadd ?></b> คน</div>
+  </div>
+</div>
+
+<table class="table table-striped" >
+    <tr align="center">
+      <th>ลำดับที่</th>
+      <th>ชื่อผู้ใช้งาน</th>
+      <th>รหัสผ่าน</th>
+      <th>วันหมดอายุ</th>
+      <th>ความเร็วเน็ต<br /> (ดาวน์โหลด / อัพโหลด)</th>
     </tr>
-    <tr>
-    </tr>
-    <tr>
-      <td height="35" colspan="5" align="left"> ตารางแสดงรายชื่อสมาชิกที่จะเพิ่มใหม่ในกลุ่ม<?= $data->gdesc ?> ทั้งสิ้น <b class="red">
-      
-    <?= $numadd ?></b>  คน</td>
-      </tr>
-    
-    <tr>
-      <td width="94" align="center" class="key">ลำดับที่</td>
-      <td width="172" align="center" class="key">ชื่อผู้ใช้งาน</td>
-      <td width="188" align="center" class="key">รหัสผ่าน</td>
-      <td width="162" align="center" class="key">วันหมดอายุ</td>
-      <td width="276" align="center" class="key">ความเร็วเน็ต<br />
-        (ดาวน์โหลด / อัพโหลด)</td>
-      </tr>
     <?php 
-			for($i = 1; $i <= $numadd; $i++) {
-		
+      for($i = 1; $i <= $numadd; $i++) {
 		?>
-    <tr>
-      <td width="94" align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $i ?></td>
-      <td width="172" align="center" valign="top" bgcolor="<?= $bgcolor ?>">
-          <input id="username[<?= $i ?>]" name="username[<?= $count ?>]" type="hidden" value="<?= $username[$i] ?>"  /><?= $username[$i] ?>            </td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>">
-      
-        <input id="password[<?= $i ?>]" name="password[<?= $count ?>]" type="hidden" value="<?= $password[$i] ?>" /><?= $password[$i] ?>             </td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $data->gexpire ?></td>
-      <td align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $data->gdownload?>/<?= $data->gupload ?> KB    </td>
-      </tr>
-    <?php } 		
- ?>
+    <tr align="center">
+      <td><?= $i ?></td>
+      <td><input id="username[<?= $i ?>]" name="username[<?= $count ?>]" type="hidden" value="<?= $username[$i] ?>"  /><?= $username[$i] ?></td>
+      <td><input id="password[<?= $i ?>]" name="password[<?= $count ?>]" type="hidden" value="<?= $password[$i] ?>" /><?= $password[$i] ?></td>
+      <td><?= $data->gexpire ?></td>
+      <td><?= $data->gdownload?>/<?= $data->gupload ?> KB</td>
+    </tr>
+    <?php } ?>
   </table>
     <input name="last" type="hidden" value="<?= $start + $count ?>" />
-  <input name="prefix" type="hidden" value="<?= $username ?>" />
-  <input name="action" type="hidden" value="print" />
-  <input name="group" type="hidden" value="<?= $group ?>" />
-  <input name="numadd" type="hidden" value="<?= $numadd ?>" />
-  <input name="passC" type="hidden" value="<?= $passC ?>" />
+    <input name="prefix" type="hidden" value="<?= $username ?>" />
+    <input name="action" type="hidden" value="print" />
+    <input name="group" type="hidden" value="<?= $group ?>" />
+    <input name="numadd" type="hidden" value="<?= $numadd ?>" />
+    <input name="passC" type="hidden" value="<?= $passC ?>" />
 
-<?php } ?>
-<?php } ?>
+<?php } } ?>
 </form>
-
-</div>
-</body>
-</html>
