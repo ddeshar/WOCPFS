@@ -1,3 +1,6 @@
+<div class="footer">
+<p>Designed with lots of love by <a href="http://www.ddeshar.com.np" rel="noopener noreferrer" target="_blank" title="Newa web developer" style="text-decoration: none;">ddeshar.com.np</a>.</p>
+</div>
 <!-- Essential javascripts for application to work-->
 <script src="_assets/js/jquery-3.2.1.min.js"></script>
 <script src="_assets/js/popper.min.js"></script>

@@ -26,6 +26,17 @@
             h1, h2, h3, h4, h5, h6, label, button, .nav-link, .swal-title, .swal-text, span, a {
                 font-family: 'Kanit' !important;
             }
+
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: #222d32;
+                color: white;
+                text-align: center;
+                padding-top: 15px;
+            }
         </style>
 
         <script>
@@ -43,7 +54,159 @@
         ?>
         <main class="app-content">
             <?php if(!isset($_REQUEST['option'])) { ?>
+                <div class="app-title">
+                    <div>
+                        <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+                        <p>Wame On Code Radius</p>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="index2.php">Dashboard</a></li>
+                    </ul>
+                </div>
+
                 <div class="row">
+                    <div class="col-md-3">
+                        <div class="widget-small primary"><i class="icon fa fa-users fa-3x"></i>
+                            <div class="info">
+                            <h4>Users</h4>
+                            <p><b><?php
+                                    $sqlUser = "SELECT * FROM account ";
+                                    echo mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sqlUser));
+                                ?></b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="widget-small info"><i class="icon fa fa-list fa-3x"></i>
+                            <div class="info">
+                            <h4>USERS ONLINE</h4>
+                            <p><b>
+                                <?php
+                                    $sqlOnline = "SELECT * from radacct,account where radacct.acctstarttime >= '".date("Y-m-d")." 00:00:00' and radacct.acctstarttime <= '".date("Y-m-d")." 23:59:59' and radacct.username = account.username and radacct.acctstoptime IS NOT NULL order by radacct.acctstarttime ";
+                                    echo mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sqlOnline));
+                                ?>
+                            </b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="widget-small warning"><i class="icon fa fa-signal fa-3x"></i>
+                            <div class="info">
+                            <h4>TOTAL AP</h4>
+                            <p><b><?php
+                                    $sqlAp = "SELECT * FROM ap ";
+                                    echo mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sqlAp));
+                                ?></b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="widget-small danger"><i class="icon fa fa-bell-o fa-3x"></i>
+                            <div class="info">
+                            <h4>CRITICAL ALARMS</h4>
+                            <p><b>15</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="tile">
+                            <h3 class="tile-title">User Online</h3>
+                            <?php 
+                                $sqlOnlineList = "SELECT * FROM radacct,account WHERE radacct.acctstoptime IS NULL AND radacct.username = account.username ORDER BY radacct.acctstarttime LIMIT 7";
+                                $resultOnlineList = mysqli_query($GLOBALS["___mysqli_ston"], $sqlOnlineList);
+                                if (mysqli_num_rows($resultOnlineList) > 0) {
+                            ?>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Starttime</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $countOnlineList = 0;
+                                        while($dataOnlineList = mysqli_fetch_object($resultOnlineList)) { 
+                                        $countOnlineList++;
+                                    ?>
+                                    <tr>
+                                        <td><?= $countOnlineList  ?></td>
+                                        <td><?= $dataOnlineList->username ?> </td>
+                                        <td><?= $dataOnlineList->firstname ?> <?= $dataOnlineList->lastname ?> </td>
+                                        <td><?= $dataOnlineList->acctstarttime ?></td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                            <?php }else{ ?>
+                                <div class="bs-component">
+                                    <div class="alert alert-danger">
+                                        <strong>Sorry!</strong> No data Available right now.
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="tile">
+                            <h3 class="tile-title">User History</h3>
+                            <?php 
+                                $sqlUserHis = "SELECT * from radacct,account where radacct.acctstarttime >= '".date("Y-m-d")." 00:00:00' and radacct.acctstarttime <= '".date("Y-m-d")." 23:59:59' and radacct.username = account.username and radacct.acctstoptime IS NOT NULL order by radacct.acctstarttime LIMIT 7";
+                                $resultUserHis = mysqli_query($GLOBALS["___mysqli_ston"], $sqlUserHis);
+                                if (mysqli_num_rows($resultUserHis) > 0) {
+                            ?>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>username</th>
+                                        <th>Name</th>
+                                        <th>Time</th>
+                                        <th>Upload	Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                    $countOnlineList = 0;
+                                    while($dataUserHis = mysqli_fetch_object($resultUserHis)) { 
+                                    $countOnlineList++;
+                                ?>
+                                    <tr>
+                                        <td><?= $countOnlineList  ?></td>
+                                        <td><?= $dataUserHis->username ?></td>
+                                        <td><?= $dataUserHis->firstname ?> <?= $dataUserHis->lastname ?></td>
+                                        <td>
+                                            <?php
+                                            $hours = floor($dataUserHis->acctsessiontime/60.0/60.0);
+                                            $mins = floor(($dataUserHis->acctsessiontime - $hours * 60.0 * 60.0)/60.0);
+                                            $secs = $dataUserHis->acctsessiontime - ($hours * 60.0 * 60.0) - ($mins * 60.0);
+                                            printf("%d:%02d:%02d", $hours, $mins, $secs);
+                                            ?>
+                                        </td>      
+                                        <td><?= Round(((int)$dataUserHis->acctinputoctets/1000000),2) ?> MB.| <?= Round(((int)$dataUserHis->acctoutputoctets/1000000),2) ?> MB.</td>
+                                    </tr>
+                                    <?php } ?> 
+                                </tbody>
+                            </table>
+                            <?php }else{ ?>
+                                <div class="bs-component">
+                                    <div class="alert alert-danger">
+                                        <strong>Sorry!</strong> No data Available right now.
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row">
                     <div class="col-md-3">
                         <a href="index2.php?option=manage_admin">
                             <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
@@ -153,59 +316,49 @@
                             </div>
                         </a>
                     </div>
-
-                        <!-- <a href="index2.php?option=add_user">
+                        <br><hr>
+                        <a href="index2.php?option=add_user">
                         <span>เพิ่มผู้ใช้แบบกลุ่ม</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=users_vip">
                         <span>เพิ่ม User VIP</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=manage_vip">
                         <span>แสดง User VIP</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=manage_interface">
                         <span>ปรับแต่งหน้าล็อกอิน</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=form">
                         <span>บล๊อก เว็บ,โหลด</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=check_accp">
                         <span>สถานะ AP</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=basic_data">
                         <span>ข้อมูลพื้นฐาน</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=import_data">
                         <span>นำเข้าข้อมูล</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=power">
                         <span>รีบูท/ปิดระบบ</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=system">
                         <span>ควบคุม Server</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=backupindex" >
                         <span>BackupDB</span>
-                        </a>
+                        </a><br>
                         <a href="index2.php?option=manuals">
                         <span>คู่มือการใช้งาน</span>
-                        </a>
+                        </a><br>
                         <a href="https://<?=$_SERVER['SERVER_ADDR'];?>:7445" target="_blank">
                         <span>Lightsquid</span>
-                        </a> -->
+                        </a>
                     <div style="clear:both;"> </div>
-                </div>
-            <?php } else { ?>
-                <!-- <div class="app-title">
-                    <div>
-                        <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-                        <p>Start a beautiful journey here</p>
-                    </div>
-                    <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                        <li class="breadcrumb-item"><a href="#">Blank Page</a></li>
-                    </ul>
                 </div> -->
+            <?php } else { ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php include($_REQUEST['option'] . ".php"); } ?>

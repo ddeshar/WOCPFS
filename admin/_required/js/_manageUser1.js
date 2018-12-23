@@ -14,7 +14,7 @@
 
     //Specify your links here- gl(Item text, Item URL)
     <?php while($groups = mysqli_fetch_object($result)) { ?>
-        gl("กลุ่ม <?= $groups->gdesc ?>","index2.php?option=manage_user&group=<?= $groups->gname ?>")
+        gl("Group <?= $groups->gdesc ?>","index2.php?option=manage_user&group=<?= $groups->gname ?>")
     <?php } ?>
 
     //Extend this list as needed            

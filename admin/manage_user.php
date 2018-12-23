@@ -110,12 +110,12 @@
 		$num = mysqli_num_rows($result);
 
 			if(!isset($_GET["group"])) { 
-				$selectgroup = "กรุณาเลือกกลุ่ม";
+				$selectgroup = "Select Group";
 			} else { 				
 				$sql = "SELECT * FROM groups WHERE gname = '".$_GET["group"]."'";
 				$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 				$data2 = mysqli_fetch_object($result2);
-				$selectgroup = "กลุ่ม  " .   $data2->gdesc . "";
+				$selectgroup = "Group " .   $data2->gdesc . "";
 			} 
 	?>
 
@@ -289,88 +289,98 @@
 		include("_required/js/_manageUser2.js");
 	?>
 
-<form id="myfrm" name="myfrm" method="post" action="?option=manage_user&action=move&group=<?=$_GET["group"]?>" onsubmit="return confirm2Move(this);">
+		<form id="myfrm" name="myfrm" method="post" action="?option=manage_user&action=move&group=<?=$_GET["group"]?>" onsubmit="return confirm2Move(this);">
 
-	<?php 
-		if(isset($_REQUEST['group'])) { 
-			echo "<div class=\"bs-component\"> <div class=\"alert alert-info\"> จำนวนสมาชิกในกลุ่ม <b class=\"text-danger\">" .$data2->gdesc . " </b> มีทั้งสิ้น ";
-			$sql = "SELECT * FROM radusergroup  WHERE groupname = '".$_REQUEST['group']."'";
-				echo "<b class=\"text-danger\">".mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))."</b>";
-				echo " คน</div> </div>";
-		}
-		if(isset($message)) {
-	?>
+			<?php 
+				if(isset($_REQUEST['group'])) { 
+					echo "<div class=\"bs-component\"> <div class=\"alert alert-info\"> จำนวนสมาชิกในกลุ่ม <b class=\"text-danger\">" .$data2->gdesc . " </b> มีทั้งสิ้น ";
+					$sql = "SELECT * FROM radusergroup  WHERE groupname = '".$_REQUEST['group']."'";
+						echo "<b class=\"text-danger\">".mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))."</b>";
+						echo " คน</div> </div>";
+				}
+				if(isset($message)) {
+			?>
+				<div class="bs-component">
+					<div class="alert alert-dismissible alert-danger">
+						<button class="close" type="button" data-dismiss="alert">×</button><?= $message;?> </a>.
+					</div>
+				</div>
 
-	<div class="bs-component">
-		<div class="alert alert-dismissible alert-danger">
-			<button class="close" type="button" data-dismiss="alert">×</button><?= $message;?> </a>.
-		</div>
-	</div>
+			<?php } ?>
 
-	<?php } ?>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="tile">
-				<div class="tile-body">
-
-					<table class="table table-hover table-bordered" id="sampleTable">
-						<tr>
-							<th><input type="checkbox" onclick="javascript:autoChecked(this.form,this);"></th>
-							<th>ที่</th>
-							<th>ชื่อ - นามสกุล</th>
-							<th>ชื่อผู้ใช้งาน</th>
-							<th>วันที่สมัคร</th>
-							<th>สถานะ</th>
-							<th>ดำเนินการ</th>
-						</tr>
-						
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tile">
+						<div class="tile-body">
 							<?php
 								$send = "option=" . $_GET['option'] . "&group=" . $_GET['group'];
 								$sql = "SELECT * FROM radusergroup , account WHERE radusergroup .groupname = '".$_GET["group"]."' and radusergroup .username = account.username and account.status != '-1' order by account.username"; 
 								$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql) or die(mysqli_error($GLOBALS["___mysqli_ston"]));
-								$count = mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql));
-								$counter = 0;
-								while($users = mysqli_fetch_object($result)) { 
-									$counter++;
+								// $count = mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql));
+								if (mysqli_num_rows($result) > 0) {
+
 							?>
+							<table class="table table-hover table-bordered" id="sampleTable">
 
-						<tr>
-							<td align="center"><input type="checkbox" id="user[]" name="user[]" value="<?= $users->username?>" /></td>
-							<td><?=$counter?></td>
-							<td><?= $users->firstname ?><?= $users->lastname ?></td>
-							<td><?= $users->username ?>  <!-- : <?= $users->password ?> --></td>
-							<td><?= substr($users->dateregis,0,10) ?></td>
-							<td>      
-									<?php if($users->status) { ?>
-									<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&&action=lock"><i class="fa fa-lg fa-lock"></i></a>
-									<?php } else { ?>
-									<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=unlock"><i class="fa fa-lg fa-unlock"></i></a>
-									<?php } ?>
-							</td>
-							<td>
-								<div class="btn-group">
-									<a class="btn btn-primary" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=edit"><i class="fa fa-pencil"></i>แก้ไข</a>
-									<a class="btn btn-danger" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=delete"><i class="fa fa-trash"></i>ลบ</a>
-
-									<?php 
-										$sql = "SELECT * FROM groups";
-										$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-										$num = mysqli_num_rows($result2);
-									?>
-								
-									<a class="btn btn-primary" onClick="showhide<?= $users->username?>(1);event.cancelBubble=1"><i class="fa fa-plus"></i>ย้ายกลุ่ม</a>
-									<div onmouseover="showhide<?= $users->username?>(2);" onmouseout="showhide<?= $users->username?>(0)" id="innermenu<?= $users->username?>" style="position:absolute; background-color:white; visibility:hidden; z-index: 10;">
-											<?php 
-												include("_required/js/_manageUser3.js");
-											?>
+								<thead>
+									<tr>
+										<th><input type="checkbox" onclick="javascript:autoChecked(this.form,this);"></th>
+										<th>ที่</th>
+										<th>ชื่อ - นามสกุล</th>
+										<th>ชื่อผู้ใช้งาน</th>
+										<th>วันที่สมัคร</th>
+										<th>สถานะ</th>
+										<th>ดำเนินการ</th>
+									</tr>
+								</thead>
+								<?php
+									$counter = 0;
+									while($users = mysqli_fetch_object($result)) { 
+									$counter++;
+								?>
+								<tbody>
+									<tr>
+										<td><input type="checkbox" id="user[]" name="user[]" value="<?= $users->username?>" /></td>
+										<td><?=$counter?></td>
+										<td><?= $users->firstname ?><?= $users->lastname ?></td>
+										<td><?= $users->username ?>  <!-- : <?= $users->password ?> --></td>
+										<td><?= substr($users->dateregis,0,10) ?></td>
+										<td>      
+											<?php if($users->status) { ?>
+											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&&action=lock"><i class="fa fa-lg fa-lock"></i></a>
+											<?php } else { ?>
+											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=unlock"><i class="fa fa-lg fa-unlock"></i></a>
+											<?php } ?>
+										</td>
+										<td>
+											<div class="btn-group">
+												<a class="btn btn-primary" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=edit"><i class="fa fa-pencil"></i>แก้ไข</a>
+												<a class="btn btn-danger" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=delete"><i class="fa fa-trash"></i>ลบ</a>
+												<?php 
+													$sql = "SELECT * FROM groups";
+													$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+													$num = mysqli_num_rows($result2);
+												?>
+											
+												<a class="btn btn-primary" onClick="showhide<?= $users->username?>(1);event.cancelBubble=1"><i class="fa fa-plus"></i>ย้ายกลุ่ม</a>
+												<div onmouseover="showhide<?= $users->username?>(2);" onmouseout="showhide<?= $users->username?>(0)" id="innermenu<?= $users->username?>" style="position:absolute; background-color:white; visibility:hidden; z-index: 10;">
+														<?php 
+															include("_required/js/_manageUser3.js");
+														?>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<?php } ?>
+							</table>
+							<?php } else{ ?>
+								<div class="bs-component">
+									<div class="alert alert-danger">
+										<strong>Sorry!</strong> No data Available Please select Group first.
 									</div>
 								</div>
-							</td>
-						</tr>
-						<?php } ?>
-					</table>
-		
-						<?php
+							<?php }								
 								if(isset($_GET["group"])){
 									echo "<div class=\"row\">";
 										echo "<div class=\"form-group col-md-3\">";
@@ -390,11 +400,11 @@
 										echo "</div>";
 									echo "</div>";
 								}
-							}
-						?>
+							?>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-</form>
+		</form>
+	<?php }?>
