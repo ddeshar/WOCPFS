@@ -86,12 +86,12 @@
 
   <div class="app-title">
       <div>
-          <h1><i class="fa fa-users"></i> เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</h1>
+          <h1><i class="fa fa-users"></i> Generate Multi Users</h1>
           <p>Generate Multi Users</p>
       </div>
       <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
-          <li class="breadcrumb-item"><a href="index2.php?option=add_user">เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</a></li>
+          <li class="breadcrumb-item"><a href="index2.php?option=add_user">Generate Multi Users</a></li>
       </ul>
   </div>
 

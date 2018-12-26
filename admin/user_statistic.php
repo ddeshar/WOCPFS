@@ -39,7 +39,7 @@
     var so = new SWFObject("openchart/actionscript/open-flash-chart.swf", "ofc", "98%", "250", "9", "#FFFFFF");
     so.addVariable("data", "chart_data.php");
 
-    /*so.addVariable("variables","true");
+    so.addVariable("variables","true");
     so.addVariable("title","Test,{font-size: 20;}");
     so.addVariable("y_legendx","Open Flash Chart,12,0x736AFF");
     so.addVariable("y_label_size","15");
@@ -49,7 +49,7 @@
     so.addVariable("x_labels","มกราคม,กุมภาพันธ์,มีนาคม,เมษายน,พฤษภาคม,มิถุนายน,กรกฎาคม,สิงหาคม,กันยายน,ตุลาคม,พฤศจิกายน,ธันวาคม");
     so.addVariable("x_axis_steps","2");
     so.addVariable("y_max","20");
-    */
+    
 
     so.addParam("allowScriptAccess", "always" );//"sameDomain");
     so.addParam("onmouseout", "onrollout2();" );

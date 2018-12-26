@@ -19,7 +19,7 @@
         <!-- Main CSS-->
         <link rel="stylesheet" type="text/css" href="_assets/css/main.css">
         <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="_assets/font-awesome-4.7.0/css/font-awesome.min.css">
         <!-- Google Font: Source Sans Pro -->
         <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,400i,700" rel="stylesheet">
         <style>
@@ -206,158 +206,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="row">
-                    <div class="col-md-3">
-                        <a href="index2.php?option=manage_admin">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>เปลี่ยนรหัสผ่าน</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=register2">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>เพิ่มผู้ใช้ทีละคน</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=register_excel">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>เพิ่มผู้ใช้ Excel</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=manage_group">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>จัดการกลุ่มผู้ใช้</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=manage_config">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>แก้ไขค่าระบบ</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=user_online">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>ผู้ที่กำลังใช้งานอยู่</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=user_history">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>ประวัติการใช้งาน</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=user_statistic">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>สถิติการใช้งาน</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="http://<?=$_SERVER['SERVER_ADDR'];?>/phpMyAdmin" target="_blank">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>จัดการ mysql</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <a href="index2.php?option=manage_user">
-                            <div class="widget-small danger"><i class="icon fa fa-users fa-3x"></i>
-                                <div class="info">
-                                    <h4>จัดการข้อมูลผู้ใช้</h4>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                        <br><hr>
-                        <a href="index2.php?option=add_user">
-                        <span>เพิ่มผู้ใช้แบบกลุ่ม</span>
-                        </a><br>
-                        <a href="index2.php?option=users_vip">
-                        <span>เพิ่ม User VIP</span>
-                        </a><br>
-                        <a href="index2.php?option=manage_vip">
-                        <span>แสดง User VIP</span>
-                        </a><br>
-                        <a href="index2.php?option=manage_interface">
-                        <span>ปรับแต่งหน้าล็อกอิน</span>
-                        </a><br>
-                        <a href="index2.php?option=form">
-                        <span>บล๊อก เว็บ,โหลด</span>
-                        </a><br>
-                        <a href="index2.php?option=check_accp">
-                        <span>สถานะ AP</span>
-                        </a><br>
-                        <a href="index2.php?option=basic_data">
-                        <span>ข้อมูลพื้นฐาน</span>
-                        </a><br>
-                        <a href="index2.php?option=import_data">
-                        <span>นำเข้าข้อมูล</span>
-                        </a><br>
-                        <a href="index2.php?option=power">
-                        <span>รีบูท/ปิดระบบ</span>
-                        </a><br>
-                        <a href="index2.php?option=system">
-                        <span>ควบคุม Server</span>
-                        </a><br>
-                        <a href="index2.php?option=backupindex" >
-                        <span>BackupDB</span>
-                        </a><br>
-                        <a href="index2.php?option=manuals">
-                        <span>คู่มือการใช้งาน</span>
-                        </a><br>
-                        <a href="https://<?=$_SERVER['SERVER_ADDR'];?>:7445" target="_blank">
-                        <span>Lightsquid</span>
-                        </a>
-                    <div style="clear:both;"> </div>
-                </div> -->
             <?php } else { ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -367,14 +215,27 @@
         </main>
         <?php 
             include("_required/_footer.php");
-            if($_REQUEST['option'] == manage_group || $_REQUEST['option'] == user_online || $_REQUEST['option'] == check_accp || $_REQUEST['option'] == manage_user || $_REQUEST['option'] == print_user){
+            if($_REQUEST['option'] == manage_group || $_REQUEST['option'] == user_online || $_REQUEST['option'] == check_accp || $_REQUEST['option'] == manage_user || $_REQUEST['option'] == print_user || $_REQUEST['option'] == manage_vip ){
         ?>
 
             <!-- Data table plugin-->
             <script type="text/javascript" src="_assets/js/plugins/jquery.dataTables.min.js"></script>
             <script type="text/javascript" src="_assets/js/plugins/dataTables.bootstrap.min.js"></script>
             <script type="text/javascript">$('#sampleTable').DataTable();</script>
-        <?php } ?>
+        <?php } 
+            if($_REQUEST['option'] == users_vip){
+        ?>
 
+        <script>
+            $('#MACADDRESS').keyup(function (e) {
+                var r = /([a-f0-9]{2})/i;
+                var str = e.target.value.replace(/[^a-f0-9:]/ig, "");
+                    if (e.keyCode != 8 && r.test(str.slice(-2))) {
+                        str = str.concat(':')
+                    }
+                    e.target.value = str.slice(0, 17);
+            });
+        </script>
+            <?php }?>
     </body>
 </html>

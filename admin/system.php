@@ -62,9 +62,6 @@
 
 <?php print $init; ?>
 
-
-
-
 <div class="row">
   <div class="col-md-5">
     <div class="tile">

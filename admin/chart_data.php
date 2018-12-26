@@ -1,7 +1,3 @@
-<?php
-	include("include/class.mysqldb.php"); 
-	include("include/config.inc.php");
-?>
 &title=&
 &x_axis_steps=1&
 &x_axis_3d=12&

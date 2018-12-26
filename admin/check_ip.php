@@ -1,9 +1,9 @@
 <?php
-$message = "";
-if($_REQUEST['ip']){
-   $sql = "delete from ap where ipaddr = '".$_REQUEST['ip']."'";
-   mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-   $message = "ลบเรียบร้อยแล้ว";
+   $message = "";
+   if($_REQUEST['ip']){
+      $sql = "DELETE FROM ap WHERE ipaddr = '".$_REQUEST['ip']."'";
+      mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+      $message = "ลบเรียบร้อยแล้ว";
    }
    
    $pass = 0;
@@ -20,13 +20,11 @@ if($_REQUEST['ip']){
          $pass = 1;
       }
       if($pass==0){
-		$sql = "insert into ap values('".$_REQUEST[apname]."','".$_REQUEST[ipaddr]."')";
-		 mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-      $message = "ส่งข้อมูลเรียบร้อยแล้วครับ";
-                     
+         $sql = "insert into ap values('".$_REQUEST[apname]."','".$_REQUEST[ipaddr]."')";
+         mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+         $message = "ส่งข้อมูลเรียบร้อยแล้วครับ";
       }         
-      }      
-
+   }      
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -63,34 +61,32 @@ if($_REQUEST['ip']){
      
       </tr>
     <?php 
-function ping($ip){
-	$cmd=shell_exec("ping -c 1 -w 1 $ip");
-	$dati_mount=explode(",",$cmd);
-	
-	if (eregi ("0", $dati_mount[1], $out)) {
-		$connesso=false;
-	}
-	
-	if (eregi ("1", $dati_mount[1], $out)) {
-		$connesso=true;
-	}
-	
-	return $connesso;
-}
-   $count = 0;
-   
-   for($i=1;$i<=255;$i++)
-   {   
-   	   $ips="192.168.2.".$i;	
-      ($count % 2 != 0) ? $bgcolor = "#FFFFFF" : $bgcolor = "#F6F6F6";
-      $count++;
-      if(ping($ips)){
-		$img = "images/aponline.png";
-	  }else {
-		$img = "images/apoffline.png";
-		}
+      function ping($ip){
+         $cmd=shell_exec("ping -c 1 -w 1 $ip");
+         $dati_mount=explode(",",$cmd);
+         
+         if (preg_match ("/0/i", $dati_mount[1], $out)) {
+            $connesso=false;
+         }
+         
+         if (preg_match ("/1/i", $dati_mount[1], $out)) {
+            $connesso=true;
+         }
+         
+         return $connesso;
+      }
+      $count = 0;
       
-      ?>
+      for($i=1;$i<=255;$i++){   
+         $ips="192.168.2.".$i;	
+         ($count % 2 != 0) ? $bgcolor = "#FFFFFF" : $bgcolor = "#F6F6F6";
+         $count++;
+         if(ping($ips)){
+         $img = "images/aponline.png";
+      }else {
+         $img = "images/apoffline.png";
+      }
+   ?>
     <tr>
       <td width="60" align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= ($i+1) ?></td>
       <td width="170" align="center" valign="top" bgcolor="<?= $bgcolor ?>"><?= $ips ?></td>

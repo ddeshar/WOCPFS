@@ -1,9 +1,6 @@
-﻿<?php
-	include("include/class.mysqldb.php");
-	include("include/config.inc.php");
-	
-?>
-<?
+<?php
+  include("include/class.testlogin.php");
+
 	$message = "";
 	$username = $firstname = $lastname = $mailaddr = $password = $password2 = "";
 	foreach($_REQUEST as $key => $value)  {
@@ -33,7 +30,7 @@
 		
 		if(!$error[3]) {
 			# check username duplicate
-			$sql = "select * from account where username = '$username'";
+			$sql = "SELECT * FROM account WHERE username = '$username'";
 			// echo $sql;
 			$link->query($sql);
 			if($link->num_rows() > 0) {
@@ -45,18 +42,21 @@
 		# check password
 		if(empty($password)) {
 			$error[5] = true;
-		}
+    }
+    
 		if(!$error[5]) {
-			if(strlen($password) < 6) {
+			if(strlen($password) < 4) {
 				$error[6] = true;
 			}
-		}
+    }
+    
 		# check password2
 		if(empty($password2)) {
 			$error[7] = true;
-		}
+    }
+    
 		if(!$error[7]) {
-			if(strlen($password2) < 6) {
+			if(strlen($password2) < 4) {
 				$error[8] = true;
 			}
 		}
@@ -66,236 +66,135 @@
 			if($password != $password2) {
 				$error[9] = true;
 			}
-		}
+    }
+    
 		$pass = true;
 		for($i = 0; $i <= 9; $i++) {
 			if($error[$i]) {
 				$pass = false;
 			}
-		}
+    }
+    
 		if($pass) {
-			$sql = "SELECT * FROM configuration where variable = 'default_regis_status'";
+			$sql = "SELECT * FROM configuration WHERE variable = 'default_regis_status'";
 			//echo $sql;
 			$link->query($sql);
 			$conf = $link->getnext();
 			//echo $conf->value;
-			//$lastname_class=$lastname."[".$selectG."]";
-			//`username`, `password`, `firstname`, `lastname`, `mailaddr`, `dateregis`, `encryption`, `status`
-			$sql = "INSERT INTO account VALUES "
-			     . "('$username','".$password."',"
-			     . "'$firstname', '$lastname', '$mailaddr','".date("Y-m-d H:i:s")."', 'clear','".$conf->value."1')";
+			$sql = "INSERT INTO account VALUES " . "('$username','".$password."'," . "'$firstname','$lastname','$mailaddr'," . "'".date("Y-m-d H:i:s")."','clear','".$conf->value."1')";
 			//echo $sql;
 			$link->query($sql);
+	
 			$sql = "INSERT INTO radcheck VALUES (NULL,'$username','Cleartext-Password',':=','".$password."')";
 			mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-			$sql = "INSERT INTO radusergroup VALUES "."('$username','".$_REQUEST['selectG']."','1')";
+			$sql = "INSERT INTO radusergroup VALUES " . "('$username','".$_REQUEST['selectG']."','1')";
 			//echo $sql;
 			$link->query($sql);
 			if($conf->value) {
-				$message = "บันทึกข้อมูลของคุณเรียบร้อยแล้ว คุณสามารถใช้งานระบบได้ทันทีครับ";
+				$message ="<div class=\"alert alert-success\"><strong>บันทึกข้อมูลของคุณเรียบร้อยแล้ว </strong>คุณสามารถใช้งานระบบได้ทันทีครับ</div>";
 			} else {
-				$message = "บันทึกข้อมูลของคุณเรียบร้อยแล้ว <br>แต่คุณจะสามารถใช้งานได้ก็ต่อเมื่อได้รับอนุญาตจากผู้ดูแลระบบแล้วเท่านั้น";
+				$message ="<div class=\"alert alert-danger\"><strong>บันทึกข้อมูลของคุณเรียบร้อยแล้ว </strong>แต่คุณจะสามารถใช้งานได้ก็ต่อเมื่อได้รับอนุญาตจากผู้ดูแลระบบแล้วเท่านั้น</div>";
 			}
 
-	$username = $firstname = $lastname = $mailaddr = $password = $password2 = "";
+	    $username = $firstname = $lastname = $mailaddr = $password = $password2 = "";
 		}
-			
 		
 	}
-	
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-    <link href="css/calendar-mos.css" type=text/css rel=stylesheet>
-    <script language="javascript" src="js/calendar.js"></script>
-<script>
-function stoperror(){
-return true
-}
-window.onerror=stoperror
-</script>
-	<title>-:- Registrat!on -:-</title>
-</head>
-<body>
-	<div id="header-bar">
-		<div id="header-logoff">ยินดีต้อนรับ 
-        &raquo; สมัครสมาชิก<a href="register.php"></a></div>
-    </div>
-    <div id="body">
-    	<a href="register.php">
-    	<h3>Regis<span class="gray">trat!on</span></h3>
-    	</a>
-            <div id="slogan"><span class="style1">กรุณากรอกข้อมูลเพื่อใช้ในการสมัครขอใช้บริการเครือข่ายอินเทอร์เน็ต</span></div>
-            
-	<form action="" method="post" name="regis">
-  <table width="100%" border="0" cellspacing="5" cellpadding="0">
-              <tr>
-                <td colspan="2" align="center"><?php 
-	if(!empty($message)) { echo "<BR>".$message; } 
-?>&nbsp;</td>
-      </tr>
-            
-          <? if(!empty($message)) {  ?>
-              <tr>
-                <td colspan="2" align="center"><BR /><input name="" type="button" class="button" value="หน้าแรก" onclick="window.location='http://<?= $_SERVER['SERVER_ADDR'] ?>:8002'" style="cursor:hand" /></td>
-              </tr>
-            <? } ?>
-	<? if(empty($message)) { ?>
-
-            <? if($error[0]) { ?>
-              <tr>
-                <td width="21%" align="right">&nbsp;</td>
-                <td width="79%" class="black">กรุณากรอกชื่อของคุณด้วยครับ</td>
-      </tr>
-            <? } ?>
-              <tr>
-                <td align="right">เลือกกลุ่ม : &nbsp;</td>
-                <td><select name="selectG">
-				<?
-				$sql1 = "select * from groups where gdesc like 'Register' order by gdesc"; 
-	  			$result1 = mysqli_query($GLOBALS["___mysqli_ston"], $sql1);
-				while($group1 = mysqli_fetch_object($result1)) { 
-				?>
-                  <option value="<?=$group1->gname?>" <? if($_REQUEST[selectG]==$group1->gname){echo"selected=\"Selected\"";}?>><?=$group1->gdesc ?></option>
-				  <?
-				  }
-				?>
-                </select><span class="black">
-                *ระบุกลุ่มให้ถูกต้อง  </span></td>
-              </tr>
-              <tr>
-                <td width="21%" align="right">ชื่อ  :</td>
-              <td width="79%"><label>
-                  <input name="firstname" type="text" class="inputbox-normal" id="firstname" style="background: <? if($error[0]) echo "#FFF0F0"; ?>" value="<?= $firstname ?>">
-                <span class="black">* กรอกชื่อจริง เช่น นายทำดี </span></label></td>
-      </tr>
-            <? if($error[1]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกนามสกุลของคุณด้วยครับ</td>
-              </tr>
-            <? } ?>
-              <tr>
-                <td align="right">นามสกุล  :</td>
-                <td><label>
-                  <input name="lastname" type="text" class="inputbox-normal" id="lastname"  style="background: <? if($error[1]) echo "#FFF0F0"; ?>" value="<?= $lastname ?>">
-                 <span class="black">* กรอกนามสกุลจริง เช่น สุขสวัสดิ์ </span></label></td>
-              </tr>
-             <? if($error[2]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกอีเมล์ของคุณด้วยครับ</td>
-              </tr>
-            <? } ?>
-              <tr>
-                <td align="right">อีเมล์  :</td>
-                <td>
-           <input name="mailaddr" type="text" class="inputbox-normal" id="mailaddr" style="width:250px;background:<? if($error[2]) echo "#FFF0F0"; ?>" value="<?= $mailaddr ?>">
-                 <span class="black">* เช่น user1@gmail.com</span></td>
-              </tr>
-              
-            <? if($error[3]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกชื่อผู้ใช้ที่คุณต้องการด้วยครับ</td>
-              </tr>
-            <? } ?>
-            
-            
-            <? if($error[4]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ชื่อผู้ใช้ที่คุณต้องการมีผู้อื่นใช้แล้ว กรุณากรอกใหม่ด้วยครับ</td>
-              </tr>
-            <? } ?>
-              <tr>
-                <td align="right">ชื่อผู้ใช้ :</td>
-                <td><label>
-                  <input name="username" type="text" class="inputbox-normal" id="username" style="background: <? if($error[3] || $error[4]) echo "#FFF0F0"; ?>" value="<?= $username ?>">
-                 <span class="red">* กรอกรหัสที่ต้องการใช้ เช่น user1 </span></label></td>
-              </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td><span class="comment"><font color=red>ให้กรอกเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น</font></span></td>
-              </tr>
-            <? if($error[5]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกรหัสผ่านด้วยครับ</td>
-              </tr>
-	<? } ?>
-              
-           <? if($error[6]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ความยาวของรหัสผ่านต้องยาวอย่างน้อย 6 อักขระ</td>
-              </tr>
- 			<? } ?>
- 
-               <tr>
-                <td align="right">รหัสผ่าน  :</td>
-                <td><label>
-                  <input name="password" type="password" class="inputbox-normal" id="password"  style="background: <? if($error[5] || $error[6] || $error[9]) echo "#FFF0F0"; ?>" value="<?= $password ?>">
-                 <span class="black">* ความยาวอย่างน้อย 6 อักขระ</span></label></td>
-              </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="comment">ความยาวอย่างน้อย 6 อักขระ</td>
-              </tr>
-           <? if($error[7]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณายืนยันรหัสผ่านด้วยครับ</td>
-              </tr>
-            <? } ?>
-           <? if($error[8]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ความยาวของรหัสผ่านต้องยาวอย่างน้อย 6 อักขระครับ</td>
-              </tr>
-            <? } ?>
-           <? if($error[9]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">รหัสผ่านทั้งสองไม่ตรงกัน</td>
-              </tr>
-            <? } ?>
-              <tr>
-                <td align="right">ยืนยันรหัสผ่าน  :</td>
-                <td><label>
-                  <input name="password2" type="password" class="inputbox-normal" id="password2"  style="background: <? if($error[7] || $error[8] || $error[9]) echo "#FFF0F0"; ?>" value="<?= $password2 ?>">
-                <span class="black">* ความยาวอย่างน้อย 6 อักขระ</span> 
-                <input type="hidden" name="Sgdesc" id="Sgdesc" value="<?=$group1->gdesc ?>" />
-                </label></td>
-              </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td><label>
-                  <input type="submit" name="button" id="button" class="button" value="ส่งข้อมูล">
-                </label></td>
-              </tr>
-             <? } ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </table>   
-	</form>
-    <div id="footer">
-    </div>
-
-<div style="line-height: 18px">
-            <br />
-        ปรับปรุงเพิ่มเติม: <a href="http://www.tansumhospital.go.th" target="_blank">ศูนย์เทคโนโลยีสารสนเทศโรงพยาบาลตาลสุม</a> จังหวัดอุบลราชธานี<br />
-			ออกแบบและพัฒนาระบบ: <a href="http://bls.buu.ac.th/" target="_blank">ห้องปฏิบัติการวิจัยลีนุกซ์</a>
+	<div class="app-title">
+		<div>
+			<h1><i class="fa fa-user"></i> เพิ่มผู้ใช้รายคน</h1>
+			<h1>Add Single User</h1>
 		</div>
-    </div>
-</body>
-</html>
+		<ul class="app-breadcrumb breadcrumb">
+			<li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
+			<li class="breadcrumb-item"><a href="index2.php?option=register2">เพิ่มผู้ใช้รายคน</a></li>
+		</ul>
+	</div>
+
+	<div class="row">
+
+			<div class="col-lg-12">
+				<div class="bs-component">
+					<?php 
+						if(!empty($message)) { echo "<BR>".$message; }
+						if(!empty($message)) {  
+					?>
+							<input name="" type="button" class="btn btn-secondary" value="หน้าแรก" onclick="window.location='?option=register2'" style="cursor:hand" />
+					<?php } ?>
+				</div>
+			</div>
+
+		<?php
+			if(empty($message)) {
+				if($error[0]) {
+					echo "กรุณากรอกชื่อของคุณด้วยครับ";
+				} 
+		?>
+			<div class="col-md-12">
+				<div class="tile">
+					<!-- <h3 class="tile-title">เพิ่มผู้ใช้รายคน</h3> -->
+					<form action="" method="post" name="regis">
+						<div class="tile-body">
+								<div class="form-group">
+									<label for="exampleSelect1">เลือกกลุ่ม</label>
+									<select name="selectG" class="form-control <?php if($error[1]) echo "is-invalid"; ?>" id="exampleSelect1">
+										<?php
+											$sql1 = "SELECT * FROM groups ORDER BY gdesc"; 
+											$result1 = mysqli_query($GLOBALS["___mysqli_ston"], $sql1);
+											while($group1 = mysqli_fetch_object($result1)) { 
+										?>
+										<option value="<?=$group1->gname?>"><?=$group1->gdesc?></option>
+										<?php } ?>
+									</select>
+									<small class="form-text text-danger">ระบุกลุ่มให้ถูกต้อง</small>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label">ชื่อ</label>
+									<input name="firstname" type="text" class="form-control <?php if($error[0]) echo "is-invalid"; ?>" id="firstname" value="<?= $firstname ?>" placeholder="นายทองต่อ">
+								</div>
+								
+								
+								<div class="form-group">
+									<label class="control-label">นามสกุล</label>
+									<input name="lastname" type="text" class="form-control <?php if($error[1]) echo "is-invalid"; ?>" id="lastname" value="<?= $lastname ?>" placeholder="ศรีสวัสดิ์">
+									<small class="form-text text-danger" ><?php if($error[1]) { echo "กรุณากรอกนามสกุลของคุณด้วยครับ"; } ?></small>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label">อีเมล์</label>
+									<input name="mailaddr" type="text" class="form-control <?php if($error[2]) echo "is-invalid"; ?>" id="mailaddr" value="<?= $mailaddr ?>" placeholder="tongtoh@hotmail.com">
+									<small class="form-text text-danger"><?php if($error[2]) { echo "กรุณากรอกอีเมล์ของคุณด้วยครับ"; } ?></small>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label">ชื่อผู้ใช้ หรือรหัสเลขประชาชน 13 หลัก</label>
+									<input name="username" type="text" class="form-control <?php if($error[3]) echo "is-invalid"; ?>" id="username" value="<?= $username ?>" placeholder="กรอกเป็นตัวอักษรภาษาอังกฤษและตัวเลขเท่านั้น">
+									<small class="form-text text-danger" ><?php if($error[3]) {echo "กรุณากรอกชื่อผู้ใช้ที่คุณต้องการด้วยครับ"; } if($error[4]) {echo "ชื่อผู้ใช้ที่คุณต้องการมีผู้อื่นใช้แล้ว กรุณากรอกใหม่ด้วยครับ"; } ?></small>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label">รหัสผ่าน</label>
+									<input name="password" type="password" class="form-control <?php if($error[5] || $error[6] || $error[9]) echo "is-invalid"; ?>" id="password" value="<?= $password ?>" placeholder="xxxx">
+									<small class="form-text text-info">ความยาวอย่างน้อย 4 อักขระ</small>
+									<small class="form-text text-danger"><?php if($error[5]) { echo "กรุณากรอกรหัสผ่านด้วยครับ"; } if($error[6]) { echo "ความยาวของรหัสผ่านต้องยาวอย่างน้อย 4 อักขระครับ"; } ?></small>
+								</div>
+								
+								<div class="form-group">
+									<label class="control-label">ยืนยันรหัสผ่าน</label>
+									<input name="password2" type="password" class="form-control <?php if($error[7] || $error[8] || $error[9]) echo "is-invalid"; ?>" id="password2" value="<?= $password2 ?>" placeholder="xxxx">
+									<small class="form-text text-danger" ><?php if($error[7]) { echo "กรุณายืนยันรหัสผ่านด้วยครับ"; } if($error[8]) { echo "ความยาวของรหัสผ่านต้องยาวอย่างน้อย 4 อักขระครับ"; } if($error[9]) { echo "รหัสผ่านทั้งสองไม่ตรงกัน"; } ?></small>
+								</div>
+
+						</div>
+						<div class="tile-footer">
+							<button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>บันทึกข้อมูล</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<?php } ?>
+	</div>
