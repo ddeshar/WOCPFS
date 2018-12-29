@@ -1,8 +1,5 @@
 <?php
-include("include/class.testlogin.php");
-?>
-<?
-
+	include("include/class.testlogin.php");
 	foreach($_REQUEST as $key => $value)  {
 		$$key = $value;
 	}
@@ -68,7 +65,7 @@ include("include/class.testlogin.php");
 						$sql = "INSERT INTO radusergroup VALUES " . "('".$result["username"]."','".$_REQUEST['selectG']."','1')";
 						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 				}		
-	$message = "บันทึกข้อมูลของคุณเรียบร้อยแล้ว <br>และคุณจะสามารถใช้ในการล็อกอินเข้าอินเทอร์เน็ตได้ทันที";
+			$message ="<div class=\"alert alert-success\"><strong>บันทึกข้อมูลของคุณเรียบร้อยแล้ว </strong>คุณสามารถใช้งานระบบได้ทันทีครับ</div>";
 			
 			/*	
 				
@@ -100,123 +97,78 @@ include("include/class.testlogin.php");
 			*/
 	
 		}
-			
-		
 	}
-	
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-    <link href="css/calendar-mos.css" type=text/css rel=stylesheet>
-    <script language="javascript" src="js/calendar.js"></script>
-<script>
-function stoperror(){
-return true
-}
-window.onerror=stoperror
-</script>
-	<title>-:- Registrat!on -:-</title>
-</head>
-<body>
-    <div id="content">
-    	<a href="register_excel.php">    	</a>
-    	<table width="95%" border="0" cellpadding="0" cellspacing="10" class="header">
-          <tr>
-            <td align="center"><img src="images/BlackNeonAgua_224.png" alt="" width="59" height="60" /></td>
-            <td width="94%"><a href="index2.php?option=register_excel">Generate <span class="gray">Users Excel[</span><span class="headrow">.xls</span><span class="gray">]</span></a><br />
-            <span class="normal">เพิ่มผู้ใช้งานรายใหม่เข้าสู่ระบบจากไฟล์ Excel </span></td>
-            <td align="right">&nbsp;</td>
-          </tr>
-        </table>
-   	    <form action="" method="post" name="regis" enctype="multipart/form-data">
- 
-    	  <table width="100%" border="0" cellspacing="5" cellpadding="0">
-              <tr>
-                <td colspan="2" align="center"><?php 
-	if(!empty($message)) { echo "<BR>".$message; } 
-?>&nbsp;</td>
-      </tr>
-            
-          <?php if(!empty($message)) {  ?>
-              <tr>
-                <td colspan="2" align="center"><BR /><input name="" type="button" class="button" value="หน้าแรก" onclick="window.location='?option=register_excel'" style="cursor:hand" /></td>
-              </tr>
-            <?php } ?>
-	<?php if(empty($message)) { ?>
-
-            <?php if($error[0]) { ?>
-            <?php } ?>
-            <?php if($error[1]) { ?>
-            <?php } ?>
-            <?php if($error[2]) { ?>
-            <?php } ?>
-            <?php if($error[3]) { ?>
-            <?php } ?>
-            <?php if($error[4]) { ?>
-            <?php } ?>
-            <?php if($error[5]) { ?>
-	<?php } ?>
-              
-           <?php if($error[6]) { ?>
- 			<?php } ?>
- 
-               <tr>
-                <td align="right">เลือกกลุ่ม : &nbsp;</td>
-                <td><select name="selectG" class="inputbox-normal">
-				<?
-				$sql1 = "select * from groups  order by gdesc"; 
-	  			$result1 = mysqli_query($GLOBALS["___mysqli_ston"], $sql1);
-				while($group1 = mysqli_fetch_object($result1)) { 
-				?>
-                  <option value="<?=$group1->gname?>"><?=$group1->gdesc?></option>
-				  <?
-				  }
-				?>
-                </select>
-                <span class="black">
-                *ระบุกลุ่มให้ถูกต้อง  </span></td>
-              </tr>
-               <tr>
-                <td width="21%" align="right">File Excel :</td>
-                <td width="79%"><label>
-                  <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
-                  <input name="file" type="file" />
-                  <span class="red">*</span></label></td>
-              </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="comment">ต้องเป็นไฟล์ Excel ที่มีนามสกุล .xls Download ไฟล์ ตัวอย่าง<a href="account.xls" target="_blank"> Excel(xls)</a></td>
-            </tr>
-           <?php if($error[7]) { ?>
-            <?php } ?>
-           <?php if($error[8]) { ?>
-            <?php } ?>
-           <?php if($error[9]) { ?>
-            <?php } ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td><label>
-                  <input type="submit" name="button" id="button" class="button" value="บันทึกข้อมูล">
-                </label></td>
-              </tr>
-             <?php } ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </table>   
-	</form>
-    <div id="footer">
-            
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-file-excel-o"></i> เพิ่มผู้ใช้งานรายใหม่เข้าสู่ระบบจากไฟล์ Excel</h1>
+        <p>	Generate Users Excel[.xls]</p>
     </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="index2.php?option=register_excel">เพิ่มผู้ใช้งานรายใหม่เข้าสู่ระบบจากไฟล์ Excel</a></li>
+    </ul>
+</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="bs-component">
+				<?php 
+					if(!empty($message)) { echo "<BR>".$message; }
+					if(!empty($message)) {  
+				?>
+					<input name="" type="button" class="btn btn-secondary" value="หน้าแรก" onclick="window.location='?option=register_excel'" style="cursor:hand" />
+				<?php } ?>
+			</div>
+		</div>
 
-    </div>
-</body>
-</html>
+		<?php
+			if(empty($message)) {
+			if($error[0]) {}
+			if($error[1]) {}
+			if($error[2]) {}
+			if($error[3]) {}
+			if($error[4]) {}
+			if($error[5]) {}
+			if($error[6]) {} 
+		?>
+
+			<div class="col-md-6">
+				<div class="tile">
+					<!-- <h3 class="tile-title">เพิ่มผู้ใช้งานรายใหม่เข้าสู่ระบบจากไฟล์ Excel</h3> -->
+					<form action="" method="post" name="regis" enctype="multipart/form-data">
+					<div class="tile-body">
+						<div class="form-group">
+							<label for="exampleSelect1">เลือกกลุ่ม</label>
+							<select name="selectG" class="form-control" id="exampleSelect1" required>
+								<?php
+									$sql1 = "SELECT * FROM groups ORDER BY gdesc"; 
+									$result1 = mysqli_query($GLOBALS["___mysqli_ston"], $sql1);
+									while($group1 = mysqli_fetch_object($result1)) { 
+								?>
+								<option value="<?=$group1->gname?>"><?=$group1->gdesc?></option>
+								<?php } ?>
+							</select>
+						</div>
+
+						<?php 
+							if($error[7]) {}
+							if($error[8]) {}
+							if($error[9]) {} 
+						?>
+
+						<div class="form-group">
+							<label for="exampleInputFile">File Excel</label>
+							<input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+							<input class="form-control-file" id="exampleInputFile" type="file" aria-describedby="fileHelp" name="file">
+							<small class="form-text text-muted" id="fileHelp">ต้องเป็นไฟล์ Excel ที่มีนามสกุล .xls Download ไฟล์ ตัวอย่าง<a href="account.xls" target="_blank"> Excel(xls)</a></small>
+						</div>
+
+					</div>
+					<div class="tile-footer">
+						<button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>บันทึกข้อมูล</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		<?php } ?>
+	</div>

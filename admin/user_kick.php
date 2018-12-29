@@ -1,9 +1,4 @@
 <?php
-	include("include/class.mysqldb.php");
-	include("include/config.inc.php");
-	
-?>
-<?
 	$message = "";
 	$username = $firstname = $lastname = $mailaddr = $password = $password2 = $opassword = "";
 	foreach($_REQUEST as $key => $value)  {
@@ -15,7 +10,6 @@
 	}
 	if(isset($button)) {
 		# check firstname
-		
 		# check username
 		if(empty($username)) {
 			$error[3] = true;
@@ -24,26 +18,26 @@
 			$error[1] = true;
 		}
 			
-			 
-		$sql = "select * from radacct where radacct.acctstoptime IS NULL and radacct.username ='$username'";
+			
+		$sql = "SELECT * FROM radacct WHERE radacct.acctstoptime IS NULL AND radacct.username ='$username'";
 		$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 		$totals = mysqli_num_rows($result);
 		if($totals==0){
-		  $error[6] = true;
-		  echo $totals;
+			$error[6] = true;
+			echo $totals;
 		}	
 			
 			# check username duplicate
-			$sql = "select * from account where username = '$username'";
+			$sql = "SELECT * FROM account WHERE username = '$username'";
 			$link1 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 			$data = mysqli_fetch_object($link1);
 			if($data->password != $opassword) {
 				$error[4] = true;
 			}else $pass = true;
 		
-		# check password
+			# check password
 
-		# check password2
+			# check password2
 			# check password and confirm password
 	
 		$pass = true;
@@ -53,205 +47,160 @@
 			}
 		}
 		if($pass) {
-//	$shell_command='sudo /bin/echo "User-Name=x1" | /usr/bin/radclient -x 127.0.0.1:3779 disconnect 	sittichai';
-	$shell_command='sudo /bin/ "User-Name='.$username.'" | /usr/local/bin/radclient -x 127.0.0.1:3779 disconnect radius_secret';
-//	$shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/bin/radclient -x 127.0.0.1:3779 disconnect 	radius_secret';
-	$output = shell_exec($shell_command);
-//
-	$updateSQL = sprintf("UPDATE radacct SET acctterminatecause='%s', acctstoptime=NOW() WHERE username='%s' and acctstoptime IS NULL","Admin-Reset", $kill_users->username);
-	mysqli_query($GLOBALS["___mysqli_ston"], $updateSQL);
-	//echo $output;
-	//$sql="DELETE FROM radacct WHERE radacct.AcctStopTime = '0000-00-00 00:00:00' and radacct.UserName ='$username'";
-	//$link1 = mysql_query($sql);
-//	$data = mysql_fetch_object($link1);
+		// $shell_command='sudo /bin/echo "User-Name=x1" | /usr/bin/radclient -x 10.0.101.1:3779 disconnect 	sittichai';
+		$shell_command='sudo /bin/ "User-Name='.$username.'" | /usr/local/bin/radclient -x 10.0.101.1:3779 disconnect radius_secret';
+		// $shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/bin/radclient -x 10.0.101.1:3779 disconnect 	radius_secret';
+		$output = shell_exec($shell_command);
+		$updateSQL = sprintf("UPDATE radacct SET acctterminatecause='%s', acctstoptime=NOW() WHERE username='%s' and acctstoptime IS NULL","Admin-Reset", $kill_users->username);
+		mysqli_query($GLOBALS["___mysqli_ston"], $updateSQL);
+		// echo $output;
+		// $sql="DELETE FROM radacct WHERE radacct.AcctStopTime = '0000-00-00 00:00:00' and radacct.UserName ='$username'";
+		// $link1 = mysql_query($sql);
+		// $data = mysql_fetch_object($link1);
 				$message = "เตะของคุณเรียบร้อยแล้ว กรุณากลับไปล็อกอินใหม่";
-	
 				$username = $firstname = $lastname = $mailaddr = $opassword = $password2 = "";
 		}
-			
-		
 	}
-	
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-    <link href="css/calendar-mos.css" type=text/css rel=stylesheet>
-    <script language="javascript" src="js/calendar.js"></script>
-<script>
-function stoperror(){
-return true
-}
-window.onerror=stoperror
-</script>
-	<title>-:- KicK User -:-</title>
-</head>
-<body>
-	<div id="header-bar">
-		<div id="header-logoff">ยินดีต้อนรับ 
-        &raquo; ระบบเตะ USER เอง<a href="user_kick.php"></a></div>
-    </div>
-    <div id="body">
-    	<a href="user_kick.php">
-    	<h3>KicK<span class="gray">User</span></h3>
-    	</a>
-            <div id="slogan"><span class="style1">กรุณากรอกข้อมูล</span></div>
-            
-	<form action="" method="post" name="regis">
-  <table width="100%" border="0" cellspacing="5" cellpadding="0">
-              <tr>
-                <td colspan="2" align="center"><?php 
-	if(!empty($message)) { echo "<BR>".$message; } 
-?>&nbsp;</td>
-      </tr>
-            
-          <? if(!empty($message)) {  ?>
-              <tr>
-                <td colspan="2" align="center"><BR /><input name="" type="button" class="button" value="ล๊อกอิน" onclick="window.location='http://<?= $_SERVER['SERVER_ADDR'] ?>:3990/logoff'" style="cursor:hand" /></td>
-              </tr>
-            <? } ?>
-	<? if(empty($message)) { ?>
 
-            <? if($error[0]) { ?>
-              <tr>
-                <td width="21%" align="right">&nbsp;</td>
-                <td width="79%" class="red">กรุณากรอกชื่อของคุณด้วยครับ</td>
-				<?
-					for($i = 0; $i < 20; $i++) {
-					$error[$i] = false;	}   
+<div class="app-title">
+	<div>
+		<h1><i class="fa fa-user-secret"></i> Kick Users</h1>
+		<p>Kick User</p>
+	</div>
+	<ul class="app-breadcrumb breadcrumb">
+		<li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
+		<li class="breadcrumb-item"><a href="index2.php?option=user_kick"> Kick Users</a></li>
+	</ul>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="tile">
+			<h3 class="tile-title">กรุณากรอกข้อมูล</h3>
+			<div class="tile-body">
+				<form method="post" name="regis">
+					<?php
+							$messageh ='<div class="bs-component">
+							<div class="card mb-3 border-primary">
+								<div class="card-body">
+									<blockquote class="card-blockquote">';
+							$messaged ='</blockquote>
+										</div>
+									</div>
+								</div>';
+
+						if(!empty($message)) { echo $messageh; echo "<p>".$message."</p>"; echo $messaged;} 
+						if(!empty($message)) {echo $messageh;
 					?>
-				</tr>
-            <? } ?>
-             
-                   
-            <? if($error[3]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกชื่อผู้ใช้ที่คุณต้องการด้วยครับ</td>
-				<?
-					for($i = 0; $i < 20; $i++) {
-					$error[$i] = false;	}   
+						<input name="" type="button" class="btn btn-primary" value="ล๊อกอิน" onclick="window.location='http://<?= $_SERVER['SERVER_ADDR'] ?>:3990/logoff'"/>
+						<?php echo $messaged; }
+
+					if(empty($message)) {
+						$message1 ='<div class="bs-component">
+										<div class="card mb-3 border-danger">
+											<div class="card-body">
+												<blockquote class="card-blockquote">';
+						$message2 ='</blockquote>
+									</div>
+								</div>
+							</div>';
+
+						if($error[0]) {
+							echo $message1;
+							echo "กรุณากรอกชื่อของคุณด้วยครับ";
+							echo $message2;
+
+							for($i = 0; $i < 20; $i++) {
+								$error[$i] = false;	
+							}   
+						}
+						
+						if($error[3]) {
+							echo $message1;
+							echo "กรุณากรอกชื่อผู้ใช้ที่คุณต้องการด้วยครับ";								
+							echo $message2;
+
+							for($i = 0; $i < 20; $i++) {
+								$error[$i] = false;
+							}
+						}
+						
+						if($error[1]) {
+							echo $message1;
+							echo "กรุณากรอกรหัสผ่านด้วยครับ";								
+							echo $message2;
+
+							for($i = 0; $i < 20; $i++) {
+								$error[$i] = false;
+							}   
+						}
+						
+						if($error[4]) {
+							echo $message1;
+							echo "ชื่อหรือรหัสผิดครับ";								
+							echo $message2;
+							
+							for($i = 0; $i < 20; $i++) {
+								$error[$i] = false;
+							}   
+		
+							// $username = $opassword ="";
+						}
+						
+						if($error[6]) { 
+							echo $message1;
+							echo "<strong>ชื่อนี้ไม่ค้างในระบบ ! </strong>";
+							echo "ท่านควรกลับไปหน้าล็อกอินใหม่";								
+							?>
+							<input name="" type="button" class="btn btn-primary" value="ล๊อกอินใหม่" onclick="window.location='http://<?= $_SERVER['SERVER_ADDR'] ?>:3990/logoff'" style="cursor:hand" />
+									
+							<?php
+							echo $message2;
+
+							for($i = 0; $i < 20; $i++) {
+								$error[$i] = false;
+							}   
+				
+						} 
 					?>
-				</tr>
 
-            <? } ?>
-                   
-				   <? if($error[1]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกรหัสผ่านด้วยครับ</td>
-				<?
-					for($i = 0; $i < 20; $i++) {
-					$error[$i] = false;	}   
-					?>
-				</tr>
+				<div class="row">
+					<div class="form-group col-md-3">
+						<label class="control-label">ชื่อผู้ใช้</label>
+						<input name="username" type="text" class="form-control <?php if($error[3] || $error[4]) { echo "is-invalid"; } ?>" id="username" value="<?= $username ?> ">
+						<!-- <input class="form-control" type="text" placeholder="Enter your name"> -->
+					</div>
+					<div class="form-group col-md-3">
+						<label class="control-label">ใช้ชื่อของท่าน รหัสผ่าน</label>
+						<!-- <input class="form-control" type="text" placeholder="Enter your email"> -->
+						<input name="opassword" type="password" class="form-control <?php if($error[10] || $error[4]) { echo "is-invalid"; } ?>" id="opassword" value="<?= $opassword ?>">
+						<?php
+							if($error[5]) {
+								echo "กรุณากรอกรหัสผ่านด้วยครับ";
+								echo "รหัสผ่านของท่าน";
+							}
+							
+							if($error[6]) {
+								echo "ความยาวของรหัสผ่านต้องยาวอย่างน้อย 8 อักขระครับ";
+							}
+							if($error[8]) {
+								echo "ความยาวของรหัสผ่านต้องยาวอย่างน้อย 8 อักขระครับ";
+							}
 
-            <? } ?>
-				   		   
-
-
-				   <? if($error[4]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ชื่อหรือรหัสผิดครับ</td>
-
-					<?
-					for($i = 0; $i < 20; $i++) {
-					$error[$i] = false;	}   
-					?>
-				</tr>
-
-			<? 
-				//	$username = $opassword ="";
-			?>
-             
-            <? } ?>
-
-
-									   <? if($error[6]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ชื่อนี้ไม่ค้างในระบบ</td>
-			  </tr> 
-			  <tr>
-                <td colspan="2" align="center"><BR /><font color=blue>ท่านควรกลับไปหน้าล็อกอินใหม่ &nbsp;&nbsp;</font><input name="" type="button" class="button" value="ล๊อกอินใหม่" onclick="window.location='http://<?= $_SERVER['SERVER_ADDR'] ?>:3990/logoff'" style="cursor:hand" /></td>
-           
-				 <?
-					for($i = 0; $i < 20; $i++) {
-					$error[$i] = false;	}   
-					?>
-				</tr>
-
-            <? } ?>
-
-              <tr>
-                <td align="right">ชื่อผู้ใช้ :</td>
-                <td><label>
-                  <input name="username" type="text" class="inputbox-normal" id="username" style="background: 
-				  <? if($error[3] || $error[4]) echo "#FFF0F0"; ?>" value="<?= $username ?>">
-                 <span class="red">*</span></label></td>
-              </tr>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td><span class="comment">ใช้ชื่อของท่าน</span></td>
-              </tr>
-            <? if($error[5]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">กรุณากรอกรหัสผ่านด้วยครับ</td>
-              </tr>
-			  <tr>
-                <td align="right">&nbsp;</td>
-                <td><span class="comment">รหัสผ่านของท่าน</span></td>
-              </tr>
-	<? } ?>
-              
-           <? if($error[6]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ความยาวของรหัสผ่านต้องยาวอย่างน้อย 8 อักขระครับ</td>
-              </tr>
- 			<? } ?>
-			 <tr>
-                <td align="right">รหัสผ่าน :</td>
-                <td><label>
-                  <input name="opassword" type="password" class="inputbox-normal" id="opassword"  style="background: <? if($error[10] || $error[4]) echo "#FFF0F0"; ?>" value="<?= $opassword ?>">
-                 <span class="red">*</span></label></td>
-              </tr>
- 
-
-           <? if($error[8]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">ความยาวของรหัสผ่านต้องยาวอย่างน้อย 8 อักขระครับ</td>
-              </tr>
-            <? } ?>
-         	<? if($error[10]) { ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td class="red">รหัสผ่านไม่ถูกต้องครับ</td>
-              </tr>
-            <? } ?>
-                          <tr>
-                <td align="right">&nbsp;</td>
-                <td><label>
-                  <input type="submit" name="button" id="button" class="button" value="เตะออก">
-                </label></td>
-              </tr>
-             <? } ?>
-              <tr>
-                <td align="right">&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </table>   
-	</form>
-
-    </div>
-</body>
-</html>
+							if($error[10]) {
+								echo "รหัสผ่านไม่ถูกต้องครับ 55";
+							}
+						?>
+					</div>
+					<div class="form-group col-md-4 align-self-end">
+						<button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>kick out</button>
+					</div>
+				</div>
+				<?php } ?>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

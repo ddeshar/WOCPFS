@@ -1,27 +1,27 @@
 <?php
-include("include/class.testlogin.php");
-?>
-<?php
+  include("include/class.testlogin.php");
+
 	$message = $url = "";
 	foreach($_REQUEST as $key => $value) {
 		$$key = $value;
 	}
 	if(isset($_REQUEST['submit'])) { 
-		$sql = "update configuration set value = '$default_regis_status' where variable = 'default_regis_status'";
+		$sql = "UPDATE configuration SET VALUE = '$default_regis_status' WHERE variable = 'default_regis_status'";
 		mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 
 		if($userurl == "3")
-			$sql = "update configuration set value = '$url' where variable = 'redirect'";
+			$sql = "UPDATE configuration SET VALUE = '$url' WHERE variable = 'redirect'";
 		else
-			$sql = "update configuration set value = '$userurl' where variable = 'redirect'";
+			$sql = "UPDATE configuration SET VALUE = '$userurl' WHERE variable = 'redirect'";
 		mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-		$message = "บันทึกการเปลี่ยนแปลงเรียบร้อยแล้ว";
+    $message ="<div class=\"alert alert-success\"><strong>บันทึกการเปลี่ยนแปลงเรียบร้อยแล้ว</strong></div>";
+    
 	}
-	$sql = "select * from configuration where variable = 'default_regis_status'";
+	$sql = "SELECT * FROM configuration WHERE variable = 'default_regis_status'";
 	$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 	$data = mysqli_fetch_object($result);
 	$default_regis_status = $data->value;
-	$sql = "select * from configuration where variable = 'redirect'";
+	$sql = "SELECT * FROM configuration WHERE variable = 'redirect'";
 	$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 	$data = mysqli_fetch_object($result);
 	$redirect = $data->value;
@@ -38,86 +38,79 @@ include("include/class.testlogin.php");
 	}	
 	
 ?>
-				
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-	<title>-:- Authent!cation -:-</title>
-    <style type="text/css">
-<!--
-.style1 {color: #c40000}
--->
-    </style>
-</head>
-<body>
-<div id="content">
-<form id="form1" method="post" action="">
-<table width="95%" border="0" align="center" cellpadding="0" cellspacing="10" class="header">
-  <tr>
-    <td width="6%" align="center"><img src="images/BlackNeonAgua_197.png" alt="" width="59" height="60" /></td>
-    <td width="94%"><a href="index2.php?option=manage_config">Global Configuration</a><br />
-<span class="normal">แก้ไขค่าคอนฟิคกูเรชั่นของระบบ</span></td>
-    <td width="94%" align="right"><input type="submit" name="submit" id="submit" value="บันทึก" class="button" /></td>
-  </tr>
-</table>
-<table width="95%" border="0" align="center" cellpadding="0" cellspacing="5">
-  <tr>
-    <td height="39" colspan="2" align="center"><span class="style1">
-      <?= $message?>
-      &nbsp;</span></td>
-    </tr>
-  <tr>
-    <td width="40%" height="25" align="right" valign="top">สมัครสมาชิกแล้วใ้ช้งานได้ทันที :</td>
-    <td width="60%" height="25" valign="top">
-      <input type="radio" name="default_regis_status" id="default_regis_status" value="1"  <?= $check1[1] ?>/> เปิด 
-      <input name="default_regis_status" type="radio" id="default_regis_status" value="0" <?= $check1[0] ?> /> ปิด    </td>
-  </tr>
-  <!-- <tr>
-    <td align="right">รหัสผ่านของผู้ใช้มีการเข้ารหัสผ่านหลายวิธี :</td>
-    <td>
-      <input type="radio" name="multi_encryption" id="multi_encryption" value="1" /> เปิด 
-      <input name="multi_encryption" type="radio" id="multi_encryption" value="0"  /> ปิด    </td>
-  </tr>
-  -->
-  <tr>
-    <td height="25" align="right" valign="top">เมื่อผู้ใช้เข้าระบบสำเร็จให้ไปที่ :</td>
-    <td height="25" valign="top"><input type="radio" name="userurl" id="userurl" value="1" <?= $check2[1] ?>/> 
-      หน้าเดิมก่อนล็อกอิน        
-        <input type="radio" name="userurl" id="userurl" value="2" <?= $check2[2] ?> />
-หน้าเว็บว่าง</td>
-  </tr>
-  
-  <tr>
-    <td align="right" valign="top">&nbsp;</td>
-    <td height="25" valign="top"><input type="radio" name="userurl" id="userurl2" value="3"   <?= $check2[3] ?>/>
-      
-        <input type="text" name="url" id="url" class="noborder" value="<?= $url ?>"  style="width:250px"/>
-  </tr>
-   
-  <tr>
-    <td height="25" align="center" valign="top">&nbsp;</td>
-    <td height="25" align="left" valign="top"><div id="urldiv" style="display:inline"></div> </td>
-  </tr>
-  <tr>
-    <td height="25" align="right">&nbsp;</td>
-    <td height="25">&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-  </form>
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-pencil"></i> แก้ไขค่าคอนฟิคกูเรชั่นของระบบ</h1>
+        <p>Global Configuration</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="index2.php?option=manage_config">แก้ไขค่าคอนฟิคกูเรชั่นของระบบ</a></li>
+    </ul>
 </div>
 
-</body>
-</html>
+<div class="row">
+
+  	<div class="col-lg-12">
+			<div class="bs-component">
+        <?php if(isset($message)) { echo $message; } ?>
+			</div>
+		</div>
+
+
+  <div class="col-md-6">
+    <div class="tile">
+      <form id="form1" method="post" action="">
+
+        <div class="tile-title-w-btn">
+          <!-- <h3 class="title">แก้ไขค่าคอนฟิคกูเรชั่นของระบบ</h3> -->
+          <div class="btn-group">
+            <input type="submit" name="submit" class="btn btn-primary" id="submit" value="บันทึก" class="button" /></td>
+          </div>
+        </div>
+
+        <div class="tile-body">
+          
+            <div class="form-group row">
+              <label class="control-label col-md-5">สมัครสมาชิกแล้วใ้ช้งานได้ทันที</label>
+              <div class="col-md-7">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="default_regis_status" id="default_regis_status" value="1"  <?= $check1[1] ?>/> เปิด 
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input name="default_regis_status" class="form-check-input" type="radio" id="default_regis_status" value="0" <?= $check1[0] ?> /> ปิด 
+                  </label>
+                </div>
+              </div>
+            </div>
+                      
+            <div class="form-group row">
+              <label class="control-label col-md-5">เมื่อผู้ใช้เข้าระบบสำเร็จให้ไปที่</label>
+              <div class="col-md-7">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" name="userurl" class="form-check-input" id="userurl" value="1" <?= $check2[1] ?>/>หน้าเดิมก่อนล็อกอิน        
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" name="userurl" id="userurl" class="form-check-input" value="2" <?= $check2[2] ?> />หน้าเว็บว่าง
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="radio" name="userurl" id="userurl2" class="form-check-input" value="3"   <?= $check2[3] ?>/><input type="text" name="url" id="url" class="form-control" value="<?= $url ?>" />
+                  </label>
+                </div>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

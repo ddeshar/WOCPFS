@@ -8,7 +8,7 @@
 			$this->connect = $connect;
 		}
 		function getFromMySQL($variable) {
-			$sql = "select * from interface where variable = '$variable'";
+			$sql = "SELECT * FROM interface WHERE variable = '$variable'";
 			// echo $sql;
 			$this->connect->query($sql);
 			$data = $this->connect->getnext();

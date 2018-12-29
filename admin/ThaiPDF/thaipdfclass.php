@@ -1,4 +1,11 @@
 <?php
+
+if (!function_exists('set_magic_quotes_runtime')) {
+    function set_magic_quotes_runtime($new_setting) {
+        return true;
+    }
+}
+
 if(!class_exists('ThaiPDF')){
 	define('ThaiPDFVersion','1.00T');
 	class ThaiPDF {
@@ -330,7 +337,7 @@ if(!class_exists('ThaiPDF')){
 			if($this->HAdd == 1){
     			//Select Arial bold 15
     			$Show = $this->HTitle;
-				if($this->HShowPNo == 1)$Show = $Show . ' หน้า ' . $this->PageNo();
+				if($this->HShowPNo == 1)$Show = $Show . 'Page No ' . $this->PageNo();
 				$this->SetFont('CordiaNew','B',12);
     			//Framed title
     			$this->Cell(0,12,$Show,0,0,$this->HAlign);
@@ -342,7 +349,7 @@ if(!class_exists('ThaiPDF')){
 		function Footer()	{
 			if($this->VAdd == 1){
 			 	$Show = $this->VTitle;
-			 	if($this->VShowPNo == 1)$Show = $Show . ' หน้า ' . $this->PageNo();
+			 	if($this->VShowPNo == 1)$Show = $Show . ' หน๏ฟฝ๏ฟฝ ' . $this->PageNo();
 				//Go to 1.5 cm from bottom
     			$this->SetY(-15);
     			//Select Arial italic 8

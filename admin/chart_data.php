@@ -1,9 +1,3 @@
-<?
-	include("include/class.mysqldb.php"); 
-	include("include/config.inc.php");
-?>
-
-
 &title=&
 &x_axis_steps=1&
 &x_axis_3d=12&
@@ -19,18 +13,18 @@
 &y_min=0&
 &y_max=
 <?
-		$sql = "select * from radacct where AcctStartTime";
-		if(round(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql)),-2) > 100) {
-			echo round(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql)),-2) . "&";
-		} else {
-			echo "100&";
-		}
+	$sql = "SELECT * FROM radacct WHERE AcctStartTime";
+	if(round(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql)),-2) > 100) {
+		echo round(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql)),-2) . "&";
+	} else {
+		echo "100&";
+	}
 ?>
 &values=
 <? 
 	for($i = 1; $i <= 12; $i++) {
 		$month = sprintf("%02d", $i);
-		$sql = "select * from radacct where AcctStartTime like '".date("Y")."-".$month."-%'";
+		$sql = "SELECT * FROM radacct WHERE AcctStartTime LIKE '".date("Y")."-".$month."-%'";
 		if($i < 12) {
 			echo mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql)) . ",";
 		} else {
