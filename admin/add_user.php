@@ -98,19 +98,18 @@
   <div class="row">
     <div class="col-md-12">
       <div class="tile">
-        <form id="form1" method="post" action="<?php if($pass && $action != "generate") { echo "ThaiPDF/exportPDF.php"; } ?>" <?php if($pass && $action != "generate") {  ?> target="_blank"<?php } ?>>
+        <form id="form1" method="post" action="<?php if($pass && $action != "generate") { echo "ThaiPDF/exportPDF-user.php"; } ?>" <?php if($pass && $action != "generate") {  ?> target="_blank"<?php } ?>>
 
           <div class="tile-title-w-btn">
-            <!-- <h3 class="tile-title">เพิ่มผู้ใช้งานรายใหม่แบบกลุ่มเข้าสู่ระบบ</h3> -->
             <div class="btn-group">
               <?php if(!$pass) { ?>
-                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>ประมวลผล</button>
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Process</button>
               <?php } else { ?>
               <?php if($action == "generate") { ?>
-                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>บันทึก</button>
-              <input type="button" name="button2" id="button2" class="btn btn-danger" value="ยกเลิก" onclick="window.location='index2.php?option=add_user'" />
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-floppy-o"></i>Save</button>
+              <input type="button" name="button2" id="button2" class="btn btn-danger" value="cancel" onclick="window.location='index2.php?option=add_user'" />
               <?php } else { ?>
-                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>พิมพ์</button>
+                <button class="btn btn-primary" type="submit" name="submit" id="submit"><i class="fa fa-fw fa-lg fa-print"></i>Print</button>
               <?php }
               } ?>
             </div>
@@ -118,67 +117,49 @@
 
           <div class="tile-body row">
 
-                <?php 
-                  if(!$pass) {
-                    if(isset($message)) { echo $message; }  
+              <?php 
+                if(!$pass) {
+                  if(isset($message)) { echo $message; }  
 
-                    $sql = "SELECT * FROM groups";
-                    $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-                    $num = mysqli_num_rows($result);
+                  $sql = "SELECT * FROM groups";
+                  $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+                  $num = mysqli_num_rows($result);
 
-                    if(!isset($_REQUEST['group'])) {
-                      $groups = "กรุณาเลือกกลุ่ม";
-                    } else {
-                      $sql = "SELECT * FROM groups WHERE gname = '".$_REQUEST['group']."'";
-                      $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-                      $data2 = mysqli_fetch_object($result2);
-                      $groups =   "กลุ่ม  " . $data2->gdesc ;
-                    } 
-                ?>
-              <div class="form-group col-md-3" onClick="showhide(1);event.cancelBubble=1">
-                <div class="widget-small <?php if($error1) { echo "danger"; }else{ echo "primary"; } ?> "><i class="icon fa fa-users fa-3x"></i>
-                  <div class="info">
-                    <h4>กลุ่มผู้ใช้ :</h4>
-                    <p><b><?=$groups ?></b></p>
-                  </div>
-                </div>
-                <div onmouseover="showhide(2);" onmouseout="showhide(0)" id="innermenu" style="position:absolute; background-color:white; visibility:hidden; x-index: -1;">
-                  <script language="JavaScript1.2">
-                    function gl(linkname,dest){
-                      document.write('<a class="dropdown-item" href="'+dest+'">'+linkname+'</a>')
-                    }
-                
-                    function showhide(state){
-                      var cacheobj=document.getElementById("innermenu").style
-                      if (state==0)
-                      cacheobj.visibility="hidden"
-                      else if(state==2) 
-                      cacheobj.visibility="visible"
-                      else
-                      cacheobj.visibility=cacheobj.visibility=="hidden"? "visible" : "hidden"
-                    }
-                
-                    // Specify your links here- gl(Item text, Item URL)
-                    <?php while($groups = mysqli_fetch_object($result)) { ?>
-                    gl("กลุ่ม  <?= $groups->gdesc ?>","index2.php?option=add_user&group=<?= $groups->gname ?>&username=<?= $username ?>&numadd=<?= $numadd ?>")
+                  if(!isset($_REQUEST['group'])) {
+                    $groups = "กรุณาเลือกกลุ่ม";
+                  } else {
+                    $sql = "SELECT * FROM groups WHERE gname = '".$_REQUEST['group']."'";
+                    $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+                    $data2 = mysqli_fetch_object($result2);
+                    $groups =   "กลุ่ม  " . $data2->gdesc ;
+                  } 
+              ?>
+
+            <div class="form-group col-md-3">
+              <div class="widget-small <?php if($error1) { echo "danger"; }else{ echo "primary"; } ?> "><i class="icon fa fa-users fa-3x"></i>
+                  <a class="nav-link dropdown-toggle btn-<?php if($error1) { echo "danger"; }else{ echo "primary"; } ?>" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?=$groups ?></a>
+                  <div class="dropdown-menu">
+                    <?php
+                      while($groups = mysqli_fetch_object($result)) {
+                    ?>
+                      <a class="dropdown-item" href="index2.php?option=add_user&group=<?= $groups->gname ?>&username=<?= $username ?>&numadd=<?= $numadd ?>"><?= $groups->gdesc ?></a>
                     <?php } ?>
+                  </div>
+              </div>
+            </div>
 
-                    //Extend this list as needed
-                    document.onclick=function(){showhide(0)}		
-                  </script>
-                </div>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">คำขึ้นต้นชื่อผู้ใช้</label>
-                <input name="username" type="text" class="form-control <?php if($error2) { echo "is-invalid"; } ?>" id="username" value="<?= $username ?>" />
-                <input name="action" type="hidden" id="action" value="generate" /> </td>
-                <div class="form-control-feedback"><?php if($error2) { echo "ระบุคำขึ้นต้นชื่อผู้ใช้ด้วยครับ"; } ?></div>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">จำนวนที่ต้องการสร้าง</label>
-                <input name="numadd" type="text" class="form-control <?php if($error3) { echo "is-invalid"; } ?>" id="numadd" value="<?= $numadd ?>" /> </td>
-                <div class="form-control-feedback"><?php if($error3) { echo "ระบุจำนวนที่ต้องการสร้างด้วยครับ"; } ?></div>
-              </div>
+            <div class="form-group col-md-3">
+              <label class="control-label">คำขึ้นต้นชื่อผู้ใช้</label>
+              <input name="username" type="text" class="form-control <?php if($error2) { echo "is-invalid"; } ?>" id="username" value="<?= $username ?>" />
+              <input name="action" type="hidden" id="action" value="generate" /> </td>
+              <div class="form-control-feedback"><?php if($error2) { echo "ระบุคำขึ้นต้นชื่อผู้ใช้ด้วยครับ"; } ?></div>
+            </div>
+            
+            <div class="form-group col-md-3">
+              <label class="control-label">จำนวนที่ต้องการสร้าง</label>
+              <input name="numadd" type="text" class="form-control <?php if($error3) { echo "is-invalid"; } ?>" id="numadd" value="<?= $numadd ?>" /> </td>
+              <div class="form-control-feedback"><?php if($error3) { echo "ระบุจำนวนที่ต้องการสร้างด้วยครับ"; } ?></div>
+            </div>
 
           </div>
         </form>

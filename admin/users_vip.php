@@ -3,9 +3,6 @@
 	if(!isset($_SESSION['logined'])) {
 		?><meta http-equiv="refresh" content="0;url=index.php"><?
 	}
-	// if(isset($_POST)){
-		var_dump($_POST);exit;
-	// }
 
 	$group = $_REQUEST['group'];
 	$cclmac = $_POST['cclmac'];

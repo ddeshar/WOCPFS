@@ -10,12 +10,12 @@
 
 			switch($_REQUEST['action']) {
 				case 'lock' : 
-					$sql = "update account set status = '0' where username = '".$_REQUEST['user']."'";
+					$sql = "UPDATE account SET status = '0' WHERE username = '".$_REQUEST['user']."'";
 					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 					$message = "<font color=green>ล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
 					break;
 				case 'unlock' : 
-					$sql = "update account set status = '1' where username = '".$_REQUEST['user']."'";
+					$sql = "UPDATE account SET status = '1' WHERE username = '".$_REQUEST['user']."'";
 					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 					$message = "<font color=green>ปลดล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
 					break;
@@ -133,10 +133,14 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="tile">
-				<a class="btn btn-primary icon-btn" href="#" onClick="showhide(1);event.cancelBubble=1"><i class="fa fa-plus"></i><?=$selectgroup?></a>
-				<div onmouseover="showhide(2);" onmouseout="showhide(0)" id="innermenu" style="position:absolute; background-color:white; visibility:hidden; z-index: 10;">
-					<?Php include("_required/js/_manageUser1.js");?>
+
+			<a class="nav-link dropdown-toggle btn-primary" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plus"></i> <?=$selectgroup?></a>
+				<div class="dropdown-menu">
+					<?php while($groups = mysqli_fetch_object($result)) { ?>
+						<a class="dropdown-item" href="index2.php?option=manage_user&group=<?= $groups->gname ?>">Group <?= $groups->gdesc ?></a>
+					<?php } ?>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -277,8 +281,8 @@
 								</div>
 							</div>
 							<div class="tile-footer">
-								<button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>บันทึก</button>&nbsp;&nbsp;&nbsp;
-								<a class="btn btn-secondary" href="#" name="button2" id="button2" onclick="window.location='index2.php?option=manage_user&group=<?= $_REQUEST['group'] ?>'"><i class="fa fa-fw fa-lg fa-times-circle"></i>ยกเลิก</a>
+								<button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-floppy-o"></i>Save</button>&nbsp;&nbsp;&nbsp;
+								<a class="btn btn-secondary" href="#" name="button2" id="button2" onclick="window.location='index2.php?option=manage_user&group=<?= $_REQUEST['group'] ?>'"><i class="fa fa-fw fa-lg fa-times"></i>Cancel</a>
 							</div>
 						</form>
 				</div>
@@ -293,7 +297,7 @@
 
 			<?php 
 				if(isset($_REQUEST['group'])) { 
-					echo "<div class=\"bs-component\"> <div class=\"alert alert-info\"> จำนวนสมาชิกในกลุ่ม <b class=\"text-danger\">" .$data2->gdesc . " </b> มีทั้งสิ้น ";
+					echo "<div class=\"bs-component\"> <div class=\"alert alert-danger\"> จำนวนสมาชิกในกลุ่ม <b class=\"text-danger\">" .$data2->gdesc . " </b> มีทั้งสิ้น ";
 					$sql = "SELECT * FROM radusergroup  WHERE groupname = '".$_REQUEST['group']."'";
 						echo "<b class=\"text-danger\">".mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))."</b>";
 						echo " คน</div> </div>";
@@ -320,60 +324,65 @@
 								if (mysqli_num_rows($result) > 0) {
 
 							?>
+  
 							<table class="table table-hover table-bordered" id="sampleTable">
-
 								<thead>
 									<tr>
 										<th><input type="checkbox" onclick="javascript:autoChecked(this.form,this);"></th>
-										<th>ที่</th>
-										<th>ชื่อ - นามสกุล</th>
-										<th>ชื่อผู้ใช้งาน</th>
-										<th>วันที่สมัคร</th>
-										<th>สถานะ</th>
-										<th>ดำเนินการ</th>
+										<th>No</th>
+										<th>Name lastname</th>
+										<th>Username</th>
+										<th>Register date</th>
+										<th>Status</th>
+										<th>Action</th>
 									</tr>
 								</thead>
-								<?php
-									$counter = 0;
-									while($users = mysqli_fetch_object($result)) { 
-									$counter++;
-								?>
 								<tbody>
+									<?php
+										$counter = 0;
+										while($users = mysqli_fetch_object($result)) { 
+										$counter++;
+									?>
 									<tr>
 										<td><input type="checkbox" id="user[]" name="user[]" value="<?= $users->username?>" /></td>
 										<td><?=$counter?></td>
 										<td><?= $users->firstname ?><?= $users->lastname ?></td>
 										<td><?= $users->username ?>  <!-- : <?= $users->password ?> --></td>
-										<td><?= substr($users->dateregis,0,10) ?></td>
+										<td>
+											<?php $date=date_create("$users->dateregis");?>
+											<?= date_format($date, 'Y-m-d') ?>
+										</td>
 										<td>      
 											<?php if($users->status) { ?>
-											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&&action=lock"><i class="fa fa-lg fa-lock"></i></a>
+											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&&action=lock"><i class="fa fa-lg fa-unlock"></i></a>
 											<?php } else { ?>
-											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=unlock"><i class="fa fa-lg fa-unlock"></i></a>
+											<a href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=unlock"><i class="fa fa-lg fa-lock"></i></a>
 											<?php } ?>
 										</td>
 										<td>
 											<div class="btn-group">
-												<a class="btn btn-primary" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=edit"><i class="fa fa-pencil"></i>แก้ไข</a>
-												<a class="btn btn-danger" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=delete"><i class="fa fa-trash"></i>ลบ</a>
+												<a class="btn btn-primary" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=edit"><i class="fa fa-pencil"></i>Edit</a>
+												<a class="btn btn-danger" href="index2.php?option=manage_user&group=<?= $_GET["group"] ?>&user=<?=$users->username?>&action=delete"><i class="fa fa-trash"></i>Delete</a>
 												<?php 
 													$sql = "SELECT * FROM groups";
 													$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 													$num = mysqli_num_rows($result2);
 												?>
-											
-												<a class="btn btn-primary" onClick="showhide<?= $users->username?>(1);event.cancelBubble=1"><i class="fa fa-plus"></i>ย้ายกลุ่ม</a>
-												<div onmouseover="showhide<?= $users->username?>(2);" onmouseout="showhide<?= $users->username?>(0)" id="innermenu<?= $users->username?>" style="position:absolute; background-color:white; visibility:hidden; z-index: 10;">
-														<?php 
-															include("_required/js/_manageUser3.js");
-														?>
-												</div>
+
+												<a class="nav-link dropdown-toggle btn-warning" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-plus"></i> Move to</a>
+													<div class="dropdown-menu">
+														<?php while($groups = mysqli_fetch_object($result2)) { ?>
+														<a class="dropdown-item" href="index2.php?option=manage_user&action=move&user=<?= $users->username?>&group=<?= $groups->gname ?>">Move to -> <?= $groups->gdesc ?></a>
+														<?php } ?>
+													</div>
+
 											</div>
 										</td>
 									</tr>
+									<?php } ?>
 								</tbody>
-								<?php } ?>
 							</table>
+
 							<?php } else{ ?>
 								<div class="bs-component">
 									<div class="alert alert-danger">
@@ -387,16 +396,16 @@
 											echo "<select id=\"group\" name=\"group\" class=\"form-control\">";
 											$sql3 = "SELECT * FROM groups";
 											$result3 = mysqli_query($GLOBALS["___mysqli_ston"], $sql3);
-											echo "<option value=\"\">จัดการกับข้อมูลที่เลือก</option>";
-											echo "<option value=\"del\">ลบข้อมูล</option>";
+											echo "<option value=\"\">Manage selected data</option>";
+											echo "<option value=\"del\">Delete</option>";
 											while($objgroup = mysqli_fetch_object($result3)) {
-												echo "<option value=\"" . $objgroup->gname . "\">ย้ายไปกลุ่ม " . $objgroup->gdesc . "</option>";
+												echo "<option value=\"" . $objgroup->gname . "\">Move to -> " . $objgroup->gdesc . "</option>";
 											}
 											echo "</select>";
 										echo "</div>";
 
 										echo "<div class=\"form-group col-md-4 align-self-end\">";
-											echo " <input type=\"submit\" class=\"btn btn-warning\" value=\"ลงมือ\" /> ";
+											echo " <input type=\"submit\" class=\"btn btn-warning\" value=\"Process\" /> ";
 										echo "</div>";
 									echo "</div>";
 								}

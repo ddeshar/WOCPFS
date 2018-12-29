@@ -56,6 +56,7 @@
                      <th>ดำเนินการ</th>
                   </tr>
                </thead>
+               <tbody>
                   <?php 
                      $sql = "SELECT * FROM ap";
                      $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
@@ -87,7 +88,6 @@
                            $image = "OFF";
                         }
                   ?>
-               <tbody>
                   <tr>
                      <td><?= ($i+1) ?></td>
                      <td><?= $name[$i] ?></td>
@@ -97,8 +97,8 @@
                         <a href="index2.php?option=check_accp&do=1&ip=<?=$ipad[$i]?>"><i class="fa fa-trash btn btn-danger" aria-hidden="true"></i></a>
                      </td>
                   </tr>
+                  <?php } ?>
                </tbody>
-               <?php } ?>
             </table>
          </div>
       </div>
