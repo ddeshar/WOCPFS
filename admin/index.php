@@ -6,73 +6,142 @@
 	if(!isset($_SESSION['logined'])) {
 		$classtext = array("", "");
 		$classbox = array("noborder2", "noborder2");
-		$message = "ท่านผู้ดูแลระบบสามารถล็อกอินได้ที่นี่";
+		$message = "<div class=\"alert alert-warning\" role=\"alert\">ท่านผู้ดูแลระบบสามารถล็อกอินได้ที่นี่</div>";
 		if(isset($_REQUEST['action'])) {
 			$username = $_REQUEST['username'];
 			$password = $_REQUEST['password'];
 			if(empty($_REQUEST['username']) && empty($_REQUEST['password'])) {
-				$message = "<span class=\"red\">กรุณากรอกชื่อผู้ใช้และรหัสผ่านของท่านด้วย</span>";
+				$message = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
+								<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+									<span aria-hidden=\"true\">&times;</span>
+								</button>
+								<strong>กรุณา!</strong> กรอกชื่อผู้ใช้และรหัสผ่านของท่านด้วย
+							</div>";
 			} else if(empty($_REQUEST['username']) && !empty($_REQUEST['password'])) {
-				$message = "<span class=\"red\">กรุณากรอกชื่อผู้ใช้ของท่านด้วย</span>";
+				$message = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
+								<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+									<span aria-hidden=\"true\">&times;</span>
+								</button>
+								<strong>กรุณา!</strong> กรอกชื่อผู้ใช้ของท่านด้วย
+							</div>";
 			} else if(!empty($_REQUEST['username']) && empty($_REQUEST['password'])) {
-				$message = "<span class=\"red\">กรุณากรอกรหัสผ่านของท่านด้วย</span>";
+				$message = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
+								<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+									<span aria-hidden=\"true\">&times;</span>
+								</button>
+								<strong>กรุณา!</strong> กรอกรหัสผ่านของท่านด้วย
+							</div>";
 			} else {
-				$sql = "select * from administrator where username = '".$_REQUEST['username']."' and password = '".md5($_REQUEST['password'])."'";
+				$sql = "SELECT * FROM administrator WHERE username = '".$_REQUEST['username']."' AND password = '".md5($_REQUEST['password'])."'";
 				$result = $link->query($sql);
 				if($link->num_rows() == 0) {
-					$message = "<span class=\"red\">ข้อมูลของท่านไม่ถูกต้อง กรุณาตรวจสอบข้อมูลด้วย</span>";
+					$message = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
+									<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+										<span aria-hidden=\"true\">&times;</span>
+									</button>
+									<strong>ข้อมูลของท่านไม่ถูกต้อง!</strong> กรุณาตรวจสอบข้อมูลด้วย
+								</div>";
 				} else {
 					$data = mysqli_fetch_object($result);
 					$_SESSION['logined'] = true;
 					$_SESSION['username'] = $_REQUEST['username'];
 					$_SESSION['name'] = $data->name;
-					$sql = "update administrator set lastlogin = '".date("Y-m-d H:i:s")."' where username = '".$_REQUEST['username']."'";
+					$sql = "UPDATE administrator SET lastlogin = '".date("Y-m-d H:i:s")."' WHERE username = '".$_REQUEST['username']."'";
 					$link->query($sql);
 					?><meta http-equiv="refresh" content="0;url=index2.php"><?
 					exit(0);
 				}
 			}
 		} 
-	
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-	<title>-:- Authent!cation -:-</title>
-</head>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="Dipendra Deshar" />
+		<meta name="keywords" content="authentication system" />
+		<meta name="description" content="PFSENSE Authentication Project" />	
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Main CSS-->
+		<link rel="stylesheet" type="text/css" href="_assets/css/main.css">
+		<!-- Font-icon css-->
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title>-:- Authent!cation -:-</title>
+	</head>
 <body>
-<div id="maincontent">
-	<div id="loginform">
-		<h2><a href="index.php">Authen<span class="gray">t!cation</span> For <span class="gray">Admin</span></a></h2>
-  <form name="login" id="login" method="post" action="">
+		<section class="material-half-bg">
+			<div class="cover"></div>
+		</section>
+		<section class="login-content">
+			<div class="logo">
+				<h1>Authent!cation For Admin</h1>
+			</div>
 			<?php echo $message; ?>
-			<p>
-				ชื่อผู้ใช้ :
-				<input type="text" name="username" id="username" class="<?php echo $classbox[0]; ?>"  value="<?php echo $username; ?>"  onclick="this.value=''" /><br />
-				รหัสผ่าน : 
-				<input type="password" name="password" id="password" class="<?php echo $classbox[1]; ?>"  value="<?php echo $password; ?>"  onclick="this.value=''" /><br />
-				<input type="hidden" name="action" id="action" value="login"> 
-                <input name="button" type="submit" class="button" id="button" value="เข้าสู่ระบบ"   />
-                <input name="button2" type="button" class="button" id="button2" value="ยกเลิก" onClick="window.location='index.php'" /><br />
-			</p>
-		</form>
-		<div style="line-height: 18px">
-            <br />
-	    สำหรับ : <font color=red>pfSense-2.4.4 + Freeradius-3x & PHP-7x </font><br />
-        ปรับปรุงเพิ่มเติม : <a href="http://www.tansumhospital.go.th/" target="_blank">ศูนย์เทคโนโลยีสารสนเทศโรงพยาบาลตาลสุม</a> จังหวัดอุบลราชธานี<br />
-		ออกแบบและพัฒนาระบบ : <a href="http://bls.buu.ac.th/" target="_blank">ห้องปฏิบัติการวิจัยลีนุกซ์  มหาวิทยาลัยบูรพา</a><br />
-	    ปรับปรุงล่าสุด : <font color=blue>08 ตุลาคม 2561 เวลา  4:09:15 น. </font>
-		</div>
-	</div>
-</div>
-</body>
-</html>
-            <!-- ปรับปรุงล่าสุด 20 กรกฎาคม 2560 เวลา 2:19:15 น. -->
+			<div class="login-box">
+				<form name="login" id="login" class="login-form" method="post" action="">
+					<h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>เข้าสู่ระบบ</h3>
+					<div class="form-group">
+						<label class="control-label">ชื่อผู้ใช้ :</label>
+						<input type="text" name="username" id="username" class="form-control <?php echo $classbox[0]; ?>"  value="<?php echo $username; ?>"  onclick="this.value=''" autofocus>
+					</div>
+					<div class="form-group">
+						<label class="control-label">รหัสผ่าน : </label>
+						<input type="password" name="password" id="password" class="form-control <?php echo $classbox[1]; ?>"  value="<?php echo $password; ?>"  onclick="this.value=''" /><br />
+					</div>
+
+					<input type="hidden" name="action" id="action" value="login"> 
+
+					<!-- <div class="form-group">
+						<div class="utility">
+						<div class="animated-checkbox">
+							<label>
+							<input type="checkbox"><span class="label-text">Stay Signed in</span>
+							</label>
+						</div>
+						<p class="semibold-text mb-2"><a href="#" data-toggle="flip">Forgot Password ?</a></p>
+						</div>
+					</div> -->
+					<div class="form-group btn-container">
+						<button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>เข้าสู่ระบบ</button>
+						<input name="button2" type="button" class="btn btn-danger btn-block" id="button2" value="ยกเลิก" onClick="window.location='index.php'" />
+					</div>
+				</form>
+
+				<!-- For password forget Function -->
+				<!-- <form class="forget-form" action="index.html">
+					<h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
+					<div class="form-group">
+						<label class="control-label">EMAIL</label>
+						<input class="form-control" type="text" placeholder="Email">
+					</div>
+					<div class="form-group btn-container">
+						<button class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
+					</div>
+					<div class="form-group mt-3">
+						<p class="semibold-text mb-0"><a href="#" data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Back to Login</a></p>
+					</div>
+				</form> -->
+			</div>
+		</section>
+		<!-- Essential javascripts for application to work-->
+		<script src="_assets/js/jquery-3.2.1.min.js"></script>
+		<script src="_assets/js/popper.min.js"></script>
+		<script src="_assets/js/bootstrap.min.js"></script>
+		<script src="_assets/js/main.js"></script>
+		<!-- The javascript plugin to display page loading on top-->
+		<script src="_assets/js/plugins/pace.min.js"></script>
+		<!-- Page specific javascripts-->
+		<script type="text/javascript" src="_assets/js/plugins/bootstrap-notify.min.js"></script>
+		<script type="text/javascript">
+		// Login Page Flipbox control
+		$('.login-content [data-toggle="flip"]').click(function() {
+			$('.login-box').toggleClass('flipped');
+			return false;
+		});
+		</script>
+	</body>
+	</html>
 <?php
 	} else {
 		?><meta http-equiv="refresh" content="0;url=index2.php"><?

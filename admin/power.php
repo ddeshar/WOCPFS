@@ -1,69 +1,75 @@
 <?php
 include("include/class.testlogin.php");
-?>
-<?php
-$message1 = "<span class=\"header\">ปิดระบบ</span>";
-$message2 = "<span class=\"header\">รีสตาร์ทระบบ</span>";
+$message1 = "<h4>Shutdown</h4>";
+$message2 = "<h4>Reboot</h4>";
 	if(isset($_REQUEST['action'])) { 
 		switch($_REQUEST['action']) {
 			case 'shutdown' :
-				$actions1 = "<input name=\"action\" type=\"button\" class=\"button\" id=\"button\" value=\"ตกลง\" onclick=\"window.location='index2.php?option=power&action=down'\"/>";
-				$actions2 = "<input name=\"action\" type=\"button\" class=\"button\" id=\"button\" value=\"ยกเลิก\" onclick=\"window.location='index2.php?option=power'\"/>";
-				$message1 = "<span class=\"alert\">คุณต้องการที่จะปิดระบบใช่ไหม...?</span>";
+				$actions1 = "<input name=\"action\" type=\"button\" class=\"btn btn-danger mr-2 mb-2\" id=\"button\" value=\"Yes\" onclick=\"window.location='index2.php?option=power&action=down'\"/>";
+				$actions2 = "<input name=\"action\" type=\"button\" class=\"btn btn-warning mr-2 mb-2\" id=\"button\" value=\"No\" onclick=\"window.location='index2.php?option=power'\"/>";
+				$message1 = "<h4 class=\"text-danger\">Do you want to shut down the system...?</h4>";
+				$alertS = "danger";
 				break;
 			case 'reboot' :
-				$actionr1 = "<input name=\"action\" type=\"button\" class=\"button\" id=\"button\" value=\"ตกลง\" onclick=\"window.location='index2.php?option=power&action=restart'\"/>";
-				$actionr2 = "<input name=\"action\" type=\"button\" class=\"button\" id=\"button\" value=\"ยกเลิก\" onclick=\"window.location='index2.php?option=power'\"/>";
-				$message2 = "<span class=\"alert\">คุณต้องการที่จะรีสตาร์ทระบบใช่ไหม...?</span>";
+				$actionr1 = "<input name=\"action\" type=\"button\" class=\"btn btn-danger mr-2 mb-2\" id=\"button\" value=\"Yes\" onclick=\"window.location='index2.php?option=power&action=restart'\"/>";
+				$actionr2 = "<input name=\"action\" type=\"button\" class=\"btn btn-warning mr-2 mb-2\" id=\"button\" value=\"No\" onclick=\"window.location='index2.php?option=power'\"/>";
+				$message2 = "<h4 class=\"text-danger\">Do you want to restart the system...?</h4>";
+				$alertR = "danger";
 				break;
 			case 'down' :
-				$message1 = "<span class=\"info\">กำลังดำเนินการปิดระบบ...</span>";
+				$message1 = "<h4 class=\"text-danger\">Shutting down the system...</h4>";
+				$alertS = "danger";
  				#exec("sudo shutdown -h now");
 				shell_exec("sudo /sbin/shutdown -h now");
 				break;
 			case 'restart' :
-				$message2 = "<span class=\"info\">กำลังดำเนินการรีสตาร์ทระบบ...</span>";
+				$message2 = "<h4 class=\"text-danger\">System restarting...</h4>";
+				$alertR = "danger";
 				#exec("sudo shutdown -r now");
 				shell_exec("sudo /sbin/shutdown -r now");
 				break;
 		}
 	}
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="Burapha Linux Laboratory" />
-	<meta name="keywords" content="authentication system" />
-	<meta name="description" content="Burapha Linux Authentication Project" />	
-    <link href="css/main.css" type=text/css rel=stylesheet>
-	<title>-:- Authent!cation -:-</title>
-</head>
-<body>
-<div id="content">
-<form action="index2.php?option=power" method="post" id="powerform" name="powerform">
-<table width="95%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
-  <tr>
-    <td width="6%" align="center"><img src="images/BlackNeonAgua_194.png" alt="" width="59" height="60" /></td>
-    <td><a href="index2.php?option=power">Shutdown &amp; Reboot</a><br />
-<span class="normal">ปิดระบบ และ รีสตาร์ทระบบ</span></td>
-    </tr>
-</table>
-<br>
-<table width="95%" align="center" border="0" cellspacing="1" class="admintable">
-    <tr>
-    <td width="344" height="30" align="center" valign="top" bgcolor="<?= $bgcolor ?>" class="red">
-    <br><?php if(isset($message1)) { echo $message1; } ?><br>
-    <br><a href="index2.php?option=power&amp;action=shutdown"><img src="images/delete_computer.png" alt="ปิดระบบ" width="128" height="128" /></a><br>
-	<br><?php if(isset($actions1)) { echo $actions1; } ?>&nbsp;&nbsp;&nbsp;<?php if(isset($actions2)) { echo $actions2; } ?><br><br></td>
-    <td width="344" height="30" align="center" valign="top" bgcolor="<?= $bgcolor ?>" class="red">
-	<br><?php if(isset($message2)) { echo $message2; } ?><br>
-    <br><a href="index2.php?option=power&amp;action=reboot"><img src="images/computer_accept.png" alt="รีสตาร์ทระบบ" width="128" height="128" /></a><br>
-    <br><?php if(isset($actionr1)) { echo $actionr1; } ?>&nbsp;&nbsp;&nbsp;<?php if(isset($actionr2)) { echo $actionr2; } ?><br><br></td>
-    </tr>
-  </table>
-</form>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-cog"></i> Shutdown &amp; Reboot</h1>
+        <p>Shutdown &amp; Reboot</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="index2.php"><i class="fa fa-cogs fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="index2.php?option=power"> Shutdown &amp; Reboot</a></li>
+    </ul>
 </div>
-</body>
-</html>
+
+<form class="row" action="index2.php?option=power" method="post" id="powerform" name="powerform">
+	
+	<div class="col-md-6 col-lg-3">
+		<div class="widget-small <?php if(isset($alertS)) { echo $alertS; }else{ echo "primary";} ?> coloured-icon"><i class="icon fa fa-terminal fa-3x"></i>
+			<div class="info">
+				<a href="index2.php?option=power&amp;action=shutdown" style="text-decoration : none;"><?php if(isset($message1)) { echo $message1; } ?></a>
+			</div>
+		</div>
+		<p class="mt-4 mb-4">
+			<?php 
+				if(isset($actions1)) { echo $actions1; }
+				if(isset($actions2)) { echo $actions2; } 
+			?>
+		</p>
+	</div>
+
+	<div class="col-md-6 col-lg-3">
+		<div class="widget-small <?php if(isset($alertR)) { echo $alertR; }else{ echo "primary";} ?> coloured-icon"><i class="icon fa fa-terminal fa-3x"></i>
+			<div class="info">
+				<a href="index2.php?option=power&amp;action=reboot" style="text-decoration : none;"><?php if(isset($message2)) { echo $message2; } ?></a>
+			</div>
+		</div>
+		<p class="mt-4 mb-4">
+			<?php 
+				if(isset($actionr1)) { echo $actionr1; }
+				if(isset($actionr2)) { echo $actionr2; } 
+			?>
+		</p>
+	</div>
+
+</form>

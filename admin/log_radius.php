@@ -1,15 +1,12 @@
 <?php
-	include("include/class.mysqldb.php");
-	include("include/config.inc.php");
-?>
-<?
+
 $day=date("Y-m-d");
 $strFileName = "/home/logserver/$day/radius/$day-radacct-mysql.log";
 $objFopen = fopen($strFileName, 'w');
 
 //INSERT INTO `radacct` (`radacctid`, `acctsessionid`, `acctuniqueid`, `username`, `groupname`, `realm`, `nasipaddress`, `nasportid`, `nasporttype`, `acctstarttime`, `acctstoptime`, `acctsessiontime`, `acctauthentic`, `connectinfo_start`, `connectinfo_stop`, `acctinputoctets`, `acctoutputoctets`, `calledstationid`, `callingstationid`, `acctterminatecause`, `servicetype`, `framedprotocol`, `framedipaddress`, `acctstartdelay`, `acctstopdelay`, `xascendsessionsvrkey`) VALUES
 $count = 0;
-$sql = "select * from radacct  where acctstarttime like '$day%' order by radacctid"; 
+$sql = "SELECT * FROM radacct  WHERE acctstarttime like '$day%' ORDER BY radacctid"; 
 $result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 while($group = mysqli_fetch_object($result)) { 
 	$count++;
