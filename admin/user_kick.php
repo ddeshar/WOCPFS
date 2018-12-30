@@ -1,4 +1,10 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+	#####################################################*/
+
 	$message = "";
 	$username = $firstname = $lastname = $mailaddr = $password = $password2 = $opassword = "";
 	foreach($_REQUEST as $key => $value)  {

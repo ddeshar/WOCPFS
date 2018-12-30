@@ -1,3 +1,11 @@
+<?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
+?>
 <script>
 	function stoperror(){
 		return true
@@ -6,7 +14,7 @@
 </script>
 
 <h2><strong>บันทึกเรียบร้อย</strong></h2>
-<?
+<?php
 	$fn = "/etc/squid3/key.txt";
 	$fn1 = "/etc/squid3/download.txt";
 	$content = stripslashes($_POST['content']);

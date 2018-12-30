@@ -1,7 +1,13 @@
 <?php
-include("include/class.testlogin.php");
-$message1 = "<h4>Shutdown</h4>";
-$message2 = "<h4>Reboot</h4>";
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
+	include("include/class.testlogin.php");
+	$message1 = "<h4>Shutdown</h4>";
+	$message2 = "<h4>Reboot</h4>";
 	if(isset($_REQUEST['action'])) { 
 		switch($_REQUEST['action']) {
 			case 'shutdown' :

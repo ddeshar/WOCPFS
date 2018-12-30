@@ -1,4 +1,10 @@
-<?
+<?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
 if($filebackup!=""){
     chmod('backup/'.$filebackup,0777);
     @unlink('backup/'.$filebackup) or die("Database backup finished");
