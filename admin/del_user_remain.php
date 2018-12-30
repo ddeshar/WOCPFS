@@ -12,7 +12,7 @@ include("include/config.inc.php");
 $sql = "SELECT * FROM radacct WHERE acctstoptime IS NULL";
 $link->query($sql);
 while($kill_users = $link->getnext()) {
-	$command = '/bin/echo User-Name='.$kill_users->username.'| /usr/local/bin/radclient -x 127.0.0.1:3779 disconnect radius_secret';
+	$command = '/bin/echo User-Name='.$kill_users->username.'| /usr/local/bin/radclient -x LAN_IP:3779 disconnect radius_secret';
 	$output = shell_exec($command);
 
 	$updateSQL = sprintf("UPDATE radacct SET acctterminatecause='%s', acctstoptime=NOW() WHERE username='%s' and acctstoptime IS NULL","Admin-Reset", $kill_users->username);

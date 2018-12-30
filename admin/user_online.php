@@ -11,7 +11,7 @@
 	} 
 
   if($_REQUEST['user']){
-    $shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/local/bin/radclient -x 127.0.0.1:3779 disconnect radius_secret';
+    $shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/local/bin/radclient -x LAN_IP:3779 disconnect radius_secret';
 
     $output = shell_exec($shell_command);
   }
