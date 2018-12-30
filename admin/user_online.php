@@ -1,4 +1,9 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
 	if(!isset($_SESSION['logined'])) {
     ?>
       <meta http-equiv="refresh" content="0;url=index.php">

@@ -1,4 +1,10 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
 CheckAdmin($_SESSION['admin_user'], $_SESSION['admin_pwd']);
 // --------------------------------------------------------------------------------
 // PhpConcept Library - Zip Module 2.3

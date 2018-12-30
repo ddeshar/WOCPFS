@@ -1,5 +1,11 @@
 <?php
-	$check=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost", "root", "mysql"));
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
+	$check=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost", "mysql_USER", "mysql_PASSWORD"));
 	mysqli_select_db($GLOBALS["___mysqli_ston"], radius3);
 
 	$fileup = $_FILES['fileup']['tmp_name'];

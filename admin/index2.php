@@ -83,7 +83,7 @@
                             <h4>USERS ONLINE</h4>
                             <p><b>
                                 <?php
-                                    $sqlOnline = "SELECT * from radacct,account where radacct.acctstarttime >= '".date("Y-m-d")." 00:00:00' and radacct.acctstarttime <= '".date("Y-m-d")." 23:59:59' and radacct.username = account.username and radacct.acctstoptime IS NOT NULL order by radacct.acctstarttime ";
+                                    $sqlOnline = "SELECT * FROM radacct,account WHERE radacct.acctstoptime IS NULL AND radacct.username = account.username";
                                     echo mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sqlOnline));
                                 ?>
                             </b></p>
@@ -116,7 +116,7 @@
                         <div class="tile">
                             <h3 class="tile-title">User Online</h3>
                             <?php 
-                                $sqlOnlineList = "SELECT * FROM radacct,account WHERE radacct.acctstoptime IS NULL AND radacct.username = account.username ORDER BY radacct.acctstarttime LIMIT 7";
+                                $sqlOnlineList = "SELECT * FROM radacct,account WHERE radacct.acctstoptime IS NULL AND radacct.username = account.username ORDER BY radacct.acctstarttime DESC LIMIT 7";
                                 $resultOnlineList = mysqli_query($GLOBALS["___mysqli_ston"], $sqlOnlineList);
                                 if (mysqli_num_rows($resultOnlineList) > 0) {
                             ?>
@@ -158,7 +158,7 @@
                         <div class="tile">
                             <h3 class="tile-title">User History</h3>
                             <?php 
-                                $sqlUserHis = "SELECT * from radacct,account where radacct.acctstarttime >= '".date("Y-m-d")." 00:00:00' and radacct.acctstarttime <= '".date("Y-m-d")." 23:59:59' and radacct.username = account.username and radacct.acctstoptime IS NOT NULL order by radacct.acctstarttime LIMIT 7";
+                                $sqlUserHis = "SELECT * from radacct,account where radacct.acctstarttime >= '".date("Y-m-d")." 00:00:00' and radacct.acctstarttime <= '".date("Y-m-d")." 23:59:59' and radacct.username = account.username and radacct.acctstoptime IS NOT NULL order by radacct.acctstarttime DESC LIMIT 7";
                                 $resultUserHis = mysqli_query($GLOBALS["___mysqli_ston"], $sqlUserHis);
                                 if (mysqli_num_rows($resultUserHis) > 0) {
                             ?>

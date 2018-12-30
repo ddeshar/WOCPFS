@@ -44,8 +44,9 @@ gsed -i "s/radius_secret/$radius_secret/g" admin/del_user_remain.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/del_user.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/clearuser.php
 #
-gsed -i "s/LAN_IP/$LAN_IP/g" login/index.html
-gsed -i "s/LAN_IP/$LAN_IP/g" logout/index.php
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/error.html
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/portal.html
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/logout.php
 #
 gsed -i 's/autoboot_delay="3"/autoboot_delay="1"/g' /boot/loader.conf
 #echo  'kern.ipc.nmbclusters="131072" ' >> /boot/loader.conf
