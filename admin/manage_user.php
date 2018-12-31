@@ -1,123 +1,129 @@
-	<?php
-		include("include/class.testlogin.php");
-		// print_r($_REQUEST);
-		$newup = $newdown = 0;
-		$newexpire = "0000-00-00";
-		if(isset($_REQUEST['action'])) { 
-			$sql = "SELECT * FROM groups WHERE gid = '".$_REQUEST['gid']."'"; 
-			$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-			$group = mysqli_fetch_object($result);
+<?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
 
-			switch($_REQUEST['action']) {
-				case 'lock' : 
-					$sql = "UPDATE account SET status = '0' WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$message = "<font color=green>ล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
-					break;
-				case 'unlock' : 
-					$sql = "UPDATE account SET status = '1' WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$message = "<font color=green>ปลดล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
-					break;
-
-				case 'delete' : 
-						
-					$sql = "DELETE FROM radcheck WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$sql = "DELETE FROM radusergroup  WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$sql = "DELETE FROM account WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$sql = "UPDATE account SET status = '-1' WHERE username = '".$_REQUEST['user']."'";
-					mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-					$message = "<font color=green>ลบผู้ใช้ที่ต้องการออกจากระบบเรียบร้อยแล้ว</font>";
-					break;
-				case 'move' :
-					if($_POST["group"]=="del"){
-						foreach($_POST["user"] as $username){
-							$sql = "DELETE FROM radcheck WHERE username = '".$username."'";
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							$sql = "DELETE FROM radusergroup  WHERE username = '".$username."'";
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							$sql = "DELETE FROM account WHERE username = '".$username."'";
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							$sql = "UPDATE account SET status = '-1' WHERE username = '".$username."'";
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-						}
-						
-						$message = "<font color=green>ลบข้อมูลเรียบร้อยแล้ว</font>";
-
-					}else{
-						if(isset($_GET["user"])){
-							$sql = "UPDATE radusergroup  SET groupname = '".$_GET["group"]."' WHERE username = '".$_REQUEST['user']."'";
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-						}else{
-							foreach($_POST["user"] as $username){
-								$sql = "UPDATE radusergroup  SET groupname = '".$_POST['group']."' WHERE username = '".$username."'";
-								mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							}
-						}
-						
-						$message = "<font color=green>ย้ายกลุ่มเรียบร้อยแล้ว</font>";
-
-					}
-					// echo $sql;
-					break;
-				case 'edit' :
-					break;
-				case 'success' :
-					$message = "<font color=green>บันทึกข้อมูลการแก้ไขเรียบร้อยแล้ว</font>";
-					break;
-				case 'saveadd' :
-					$error = 0;
-					$newup = $_REQUEST['newgroupupload'];
-					$newdown = $_REQUEST['newgroupdownload'];
-					$newexpire = $_REQUEST['newgroupexpire'];
-					if(trim($_REQUEST['newgroupdesc']) == '') {
-						$error = 1;
-						$message = "<span class=\"alert\">กรุณากรอกชื่อกลุ่มด้วย</span>";
-					} else {
-						$sql = "SELECT * FROM groups WHERE gdesc = '".trim($_REQUEST['newgroupdesc'])."'";
-						if(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))) {
-							$message = "<span class=\"alert\">ชื่อกลุ่ม '".trim($_REQUEST['newgroupdesc'])."' ซ้ำ กรุณาเปลี่ยนชื่อกลุ่มใหม่</span>";
-							$error = 1;
-						} else {
-							if($newdown != 0) {
-								// $down = $newdown * 1024 * 8;
-								$down = $newdown * 1024;
-								$sql = "INSERT INTO radgroupreply VALUES (NULL, 'group".$_REQUEST['newgname']."', 'WISPr-Bandwidth-Max-Down', ':=', '$down')";
-								mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							}
-							if($newup != 0) {
-								// $upload = $newup * 1024 * 8;
-								$upload = $newup * 1024;
-								$sql = "INSERT INTO radgroupreply VALUES (NULL, group'".$_REQUEST['newgname']."', 'WISPr-Bandwidth-Max-Up', ':=', '$upload')";
-								mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							}
-							$sql = "INSERT INTO groups VALUES(NULL,'group".$_REQUEST['newgname']."','".$_REQUEST['newgroupdesc']."', '$newup', '$newdown', '0', '$newexpire', 'clear', '1')";
-							// echo $sql;
-							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-							
-								$message = "<font color=green>บันทึกข้อมูลกลุ่มใหม่เรียบร้อยแล้ว</font>";
-							}
-					}
-					break;
-			}
-		}
-		
-		$sql = "SELECT * FROM groups";
+	include("include/class.testlogin.php");
+	// print_r($_REQUEST);
+	$newup = $newdown = 0;
+	$newexpire = "0000-00-00";
+	if(isset($_REQUEST['action'])) { 
+		$sql = "SELECT * FROM groups WHERE gid = '".$_REQUEST['gid']."'"; 
 		$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-		$num = mysqli_num_rows($result);
+		$group = mysqli_fetch_object($result);
 
-			if(!isset($_GET["group"])) { 
-				$selectgroup = "Select Group";
-			} else { 				
-				$sql = "SELECT * FROM groups WHERE gname = '".$_GET["group"]."'";
-				$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
-				$data2 = mysqli_fetch_object($result2);
-				$selectgroup = "Group " .   $data2->gdesc . "";
-			} 
-	?>
+		switch($_REQUEST['action']) {
+			case 'lock' : 
+				$sql = "UPDATE account SET status = '0' WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$message = "<font color=green>ล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
+				break;
+			case 'unlock' : 
+				$sql = "UPDATE account SET status = '1' WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$message = "<font color=green>ปลดล็อกผู้ใช้ที่ต้องการเรียบร้อยแล้ว</font>";
+				break;
+
+			case 'delete' : 
+					
+				$sql = "DELETE FROM radcheck WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$sql = "DELETE FROM radusergroup  WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$sql = "DELETE FROM account WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$sql = "UPDATE account SET status = '-1' WHERE username = '".$_REQUEST['user']."'";
+				mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+				$message = "<font color=green>ลบผู้ใช้ที่ต้องการออกจากระบบเรียบร้อยแล้ว</font>";
+				break;
+			case 'move' :
+				if($_POST["group"]=="del"){
+					foreach($_POST["user"] as $username){
+						$sql = "DELETE FROM radcheck WHERE username = '".$username."'";
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						$sql = "DELETE FROM radusergroup  WHERE username = '".$username."'";
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						$sql = "DELETE FROM account WHERE username = '".$username."'";
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						$sql = "UPDATE account SET status = '-1' WHERE username = '".$username."'";
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+					}
+					
+					$message = "<font color=green>ลบข้อมูลเรียบร้อยแล้ว</font>";
+
+				}else{
+					if(isset($_GET["user"])){
+						$sql = "UPDATE radusergroup  SET groupname = '".$_GET["group"]."' WHERE username = '".$_REQUEST['user']."'";
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+					}else{
+						foreach($_POST["user"] as $username){
+							$sql = "UPDATE radusergroup  SET groupname = '".$_POST['group']."' WHERE username = '".$username."'";
+							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						}
+					}
+					
+					$message = "<font color=green>ย้ายกลุ่มเรียบร้อยแล้ว</font>";
+
+				}
+				// echo $sql;
+				break;
+			case 'edit' :
+				break;
+			case 'success' :
+				$message = "<font color=green>บันทึกข้อมูลการแก้ไขเรียบร้อยแล้ว</font>";
+				break;
+			case 'saveadd' :
+				$error = 0;
+				$newup = $_REQUEST['newgroupupload'];
+				$newdown = $_REQUEST['newgroupdownload'];
+				$newexpire = $_REQUEST['newgroupexpire'];
+				if(trim($_REQUEST['newgroupdesc']) == '') {
+					$error = 1;
+					$message = "<span class=\"alert\">กรุณากรอกชื่อกลุ่มด้วย</span>";
+				} else {
+					$sql = "SELECT * FROM groups WHERE gdesc = '".trim($_REQUEST['newgroupdesc'])."'";
+					if(mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], $sql))) {
+						$message = "<span class=\"alert\">ชื่อกลุ่ม '".trim($_REQUEST['newgroupdesc'])."' ซ้ำ กรุณาเปลี่ยนชื่อกลุ่มใหม่</span>";
+						$error = 1;
+					} else {
+						if($newdown != 0) {
+							// $down = $newdown * 1024 * 8;
+							$down = $newdown * 1024;
+							$sql = "INSERT INTO radgroupreply VALUES (NULL, 'group".$_REQUEST['newgname']."', 'WISPr-Bandwidth-Max-Down', ':=', '$down')";
+							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						}
+						if($newup != 0) {
+							// $upload = $newup * 1024 * 8;
+							$upload = $newup * 1024;
+							$sql = "INSERT INTO radgroupreply VALUES (NULL, group'".$_REQUEST['newgname']."', 'WISPr-Bandwidth-Max-Up', ':=', '$upload')";
+							mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						}
+						$sql = "INSERT INTO groups VALUES(NULL,'group".$_REQUEST['newgname']."','".$_REQUEST['newgroupdesc']."', '$newup', '$newdown', '0', '$newexpire', 'clear', '1')";
+						// echo $sql;
+						mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+						
+							$message = "<font color=green>บันทึกข้อมูลกลุ่มใหม่เรียบร้อยแล้ว</font>";
+						}
+				}
+				break;
+		}
+	}
+	
+	$sql = "SELECT * FROM groups";
+	$result = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+	$num = mysqli_num_rows($result);
+
+		if(!isset($_GET["group"])) { 
+			$selectgroup = "Select Group";
+		} else { 				
+			$sql = "SELECT * FROM groups WHERE gname = '".$_GET["group"]."'";
+			$result2 = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+			$data2 = mysqli_fetch_object($result2);
+			$selectgroup = "Group " .   $data2->gdesc . "";
+		} 
+?>
 
 <div class="app-title">
     <div>

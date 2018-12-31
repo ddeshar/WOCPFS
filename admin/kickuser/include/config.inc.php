@@ -1,9 +1,9 @@
 <?php
 	# configuration for database
 	$_config['database']['hostname'] = "localhost";
-	$_config['database']['username'] = "root";
-	$_config['database']['password'] = "sqlrootpass";
-	$_config['database']['database'] = "radius";
+	$_config['database']['username'] = "mysql_USER";
+	$_config['database']['password'] = "mysql_PASSWORD";
+	$_config['database']['database'] = "mysql_DB";
 	
 	# connect the database server
 	$link = new mysqldb();

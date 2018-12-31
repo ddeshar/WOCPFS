@@ -1,4 +1,10 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
     include("include/class.testlogin.php");
 
     ini_set('memory_limit','16M');
@@ -6,15 +12,15 @@
 /* SCRIPT CONFIGURATION */
 /*=====================================================================================*/
 
-$mysql['host'] ='localhost';                    // ussually localhost
-$mysql['user'] ='root';                   // mysql username
-$mysql['pass'] ='mysql';               // mysql password
-$mysql['name'] ='radius3';			            // mysql database name
+$mysql['host'] ='localhost';                        // ussually localhost
+$mysql['user'] ='mysql_USER';                       // mysql username
+$mysql['pass'] ='mysql_PASSWORD';                   // mysql password
+$mysql['name'] ='mysql_DB';			                    // mysql database name
 
 //if(ISO=='utf-8'){
-//$mysql['charset'] = "utf8";                     // connection charset
+//$mysql['charset'] = "utf8";                       // connection charset
 //} else {
-//$mysql['charset'] = "tis620";                    // connection charset
+//$mysql['charset'] = "tis620";                     // connection charset
 //}
 //$file = 'backup/'.date('Y-m-d').'-db_backup.zip'; // will produce file like 2009-05-19-db_backup.zip
 

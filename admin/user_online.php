@@ -1,4 +1,9 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
 	if(!isset($_SESSION['logined'])) {
     ?>
       <meta http-equiv="refresh" content="0;url=index.php">
@@ -6,7 +11,7 @@
 	} 
 
   if($_REQUEST['user']){
-    $shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/local/bin/radclient -x 127.0.0.1:3779 disconnect radius_secret';
+    $shell_command='sudo /bin/echo "User-Name='.$_REQUEST['user'].'" | /usr/local/bin/radclient -x LAN_IP:3779 disconnect radius_secret';
 
     $output = shell_exec($shell_command);
   }
