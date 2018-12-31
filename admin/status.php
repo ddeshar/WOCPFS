@@ -1,4 +1,10 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
    //Web Server Status v 1.4, Copyright 2002 By Ryan Schwiebert, visit http://www.schwebdesigns.com/
    //This script may be freely distributed providing all copyright headers are kept intact. 
 

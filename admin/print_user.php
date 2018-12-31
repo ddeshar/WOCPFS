@@ -1,4 +1,10 @@
 <?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+
 	// print_r($_REQUEST);
 	$newup = $newdown = 0;
 	$newexpire = "0000-00-00";

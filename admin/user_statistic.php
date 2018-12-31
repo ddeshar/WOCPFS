@@ -1,3 +1,10 @@
+<?php
+	/*####################################################
+	WOCPFS - Wame On Code Pfsense Radius Auth
+	Copyright (C) 2018 Mr.Dipendra Deshar
+	E-Mail: jedeshar@gmail.com Homepage: http://ddeshar.com.np
+  #####################################################*/
+?>
 <div class="app-title">
     <div>
         <h1><i class="fa fa-line-chart"></i> สถิติการใช้งานระบบ</h1>

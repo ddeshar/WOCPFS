@@ -28,6 +28,10 @@ gsed -i "s/mysql_USER/$mysql_USER/g" admin/include/config.inc.php
 gsed -i "s/mysql_PASSWORD/$mysql_PASSWORD/g" admin/include/config.inc.php
 gsed -i "s/mysql_DB/$mysql_DB/g" admin/include/config.inc.php
 #
+gsed -i "s/mysql_USER/$mysql_USER/g" admin/kickuser/config.inc.php 
+gsed -i "s/mysql_PASSWORD/$mysql_PASSWORD/g" admin/kickuser/config.inc.php 
+gsed -i "s/mysql_DB/$mysql_DB/g" admin/kickuser/config.inc.php 
+#
 gsed -i "s/mysql_USER/$mysql_USER/g" admin/backupdb.php
 gsed -i "s/mysql_PASSWORD/$mysql_PASSWORD/g" admin/backupdb.php
 gsed -i "s/mysql_DB/$mysql_DB/g" admin/backupdb.php
@@ -36,7 +40,7 @@ gsed -i "s/mysql_USER/$mysql_USER/g" admin/restore.php
 gsed -i "s/mysql_PASSWORD/$mysql_PASSWORD/g" admin/restore.php
 gsed -i "s/mysql_DB/$mysql_DB/g" admin/restore.php
 #
-gsed -i "s/radius_secret/$radius_secret/g" admin/kickuser/del_user_remain.php
+gsed -i "s/radius_secret/$radius_secret/g" admin/kickuser/del_user_remain.php 
 gsed -i "s/radius_secret/$radius_secret/g" admin/user_online.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/user_kick.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/kick.php
@@ -44,8 +48,13 @@ gsed -i "s/radius_secret/$radius_secret/g" admin/del_user_remain.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/del_user.php
 gsed -i "s/radius_secret/$radius_secret/g" admin/clearuser.php
 #
-gsed -i "s/LAN_IP/$LAN_IP/g" login/index.html
-gsed -i "s/LAN_IP/$LAN_IP/g" logout/index.php
+gsed -i "s/LAN_IP/$LAN_IP/g" admin/del_user_remain.php
+gsed -i "s/LAN_IP/$LAN_IP/g" admin/del_user.php
+gsed -i "s/LAN_IP/$LAN_IP/g" admin/user_online.php
+#
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/error.html
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/portal.html
+gsed -i "s/LAN_IP/$LAN_IP/g" customcaptiveportalpage/logout.php
 #
 gsed -i 's/autoboot_delay="3"/autoboot_delay="1"/g' /boot/loader.conf
 #echo  'kern.ipc.nmbclusters="131072" ' >> /boot/loader.conf
