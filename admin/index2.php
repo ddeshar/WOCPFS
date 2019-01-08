@@ -1,7 +1,7 @@
 <?php
 	include("include/class.mysqldb.php");
 	include("include/config.inc.php");
-	include("include/pagination.php");
+	// include("include/pagination.php");
 	if(!isset($_SESSION['logined'])) {
 		?><meta http-equiv="refresh" content="0;url=index.php"><?
 	} 
@@ -50,6 +50,7 @@
     <body class="app sidebar-mini rtl">
         <?php 
             include("_required/_header.php");
+            include("_required/_menu.php");
             include("_required/_aside.php");
         ?>
         <main class="app-content">
@@ -215,7 +216,7 @@
         </main>
         <?php 
             include("_required/_footer.php");
-            if($_REQUEST['option'] == manage_group || $_REQUEST['option'] == user_online || $_REQUEST['option'] == check_accp || $_REQUEST['option'] == manage_user || $_REQUEST['option'] == print_user || $_REQUEST['option'] == manage_vip ){
+            if($_REQUEST['option'] == manage_group ||$_REQUEST['option'] == menu || $_REQUEST['option'] == user_online || $_REQUEST['option'] == check_accp || $_REQUEST['option'] == manage_user || $_REQUEST['option'] == print_user || $_REQUEST['option'] == manage_vip ){
         ?>
 
             <!-- Data table plugin-->
