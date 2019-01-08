@@ -5,21 +5,19 @@
 
 * ติดตั้ง pfSense-2.4.4 Server ตั้งค่า WAN และ LAN ให้ออกอินเตอร์เน็ตได้ 
 * เข้าหน้าจัดการเว็บแอดมินของ pfSense Server ทาง ==> https://LAN-IP_SERVER
-```
-User = admin 
-Password = pfsense
-```
-*** จากนั้นให้ติดตั้งแพ็คเกจ Freeradius-3 ก่อน ***
+> **User** = _admin_ **Password** = _pfsense_
+
+> **จากนั้นให้ติดตั้งแพ็คเกจ Freeradius-3 ก่อน**
 * เปิดโปรแกรม [putty:](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) และล็อกอินด้วย root รีโมทผ่าน Secure Shell เข้าไปทำงานที่หน้าคอนโซล pfSense
 * ถึงตรงนี้ให้ใส่ล็อกอินเป็น root และใส่รหัสผ่านของ root
 * เมื่อเข้าสู่หน้าต่างคอนโซลให้ใส่ 8 เพื่อเข้าสู่โหมดคอมมานด์ Shell ให้ทำการสั่งโหลดไฟล็และแตกไฟล์โดย
 ```
-fetch https://github.com/ddeshar/WOCPFS/archive/V.1.0.tar.gz
-tar -zxvf V.1.0.tar.gz
+fetch https://github.com/ddeshar/WOCPFS/archive/V.1.1.tar.gz
+tar -zxvf V.1.1.tar.gz
 ```
 * จากนั้นให้เข้าไปในไดเรคทอรีของไฟล์ติดตั้งโดย
 ```
-cd WOCPFS-V.1.0
+cd WOCPFS-V.1.1
 chmod +x *.sh
 ```
 * ก่อนจะติดตั้ง ให้แก้ไขไฟล์ install.sh ด้วยโปรแกรม [WinSCP:](https://winscp.net/eng/download.php)  ก็ได้(หรืออาจจะใช้โปรแกรม VI ของ pfSense)
