@@ -299,9 +299,9 @@
                 </td>
                 <td>      
                   <?php if($group->gstatus) { ?>
-                    <a href="index2.php?option=manage_group&gid=<?=$group->gid?>&action=lock"><i class="fa fa-lg fa-lock"></i></a>
+                    <a href="index2.php?option=manage_group&gid=<?=$group->gid?>&action=lock"><i class="fa fa-lg fa-unlock "></i></a>
                     <?php } else { ?>
-                    <a href="index2.php?option=manage_group&gid=<?=$group->gid?>&action=unlock"><i class="fa fa-lg fa-unlock"></i></a>
+                    <a href="index2.php?option=manage_group&gid=<?=$group->gid?>&action=unlock"><i class="fa fa-lg fa-lock"></i></a>
                     <?php } ?>
                 </td>
                 <td>

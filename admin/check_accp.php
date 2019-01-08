@@ -48,7 +48,7 @@
 
 
 <div class="row">
-   <div class="col-md-12">
+   <div class="col-md-8">
       <div class="tile">
          <!-- <h3>สถานะ Access Point</h3> -->
          <div class="tile-body">
@@ -110,20 +110,20 @@
       </div>
    </div>
 
-   <div class="col-md-12">
+   <div class="col-md-4">
       <div class="tile">
          <h3 class="tile-title">เพิ่ม Access Point</h3>
          <div class="tile-body">
             <form action="index2.php?option=check_accp" method="post" name="regis" class="row">
-               <div class="form-group col-md-3">
+               <div class="form-group col-md-12">
                   <label class="control-label">ชื่อ Access Point</label>
                   <input name="apname" type="text" class="form-control" id="apname" />
                </div>
-               <div class="form-group col-md-3">
+               <div class="form-group col-md-12">
                   <label class="control-label">IP Access Point</label>
                   <input name="ipaddr" type="text" class="form-control" id="ipaddr"  />
                </div>
-               <div class="form-group col-md-4 align-self-end">
+               <div class="form-group col-md-12 align-self-end">
                   <button class="btn btn-primary" type="submit" name="button" id="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>เพิ่ม</button>
                </div>
             </form>
@@ -140,6 +140,5 @@
    </blockquote>
    </div>
 </div>
-
 <!-- <i class="text-primary fa fa-wifi"></i>
 <i class="text-danger fa fa-wifi"></i> -->
